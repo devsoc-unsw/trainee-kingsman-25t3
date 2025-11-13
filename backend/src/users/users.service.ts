@@ -39,7 +39,7 @@ export class UsersService {
         data: updateUserDto,
       });
     } catch (error) {
-      if (error.code === 'P2025') {
+      if (error.code === "P2025") {
         throw new NotFoundException(`User with id: ${id} not found`);
       }
       throw error;
@@ -54,7 +54,7 @@ export class UsersService {
         },
       });
     } catch (error) {
-      if (error.code === 'P2025') {
+      if (error.code === "P2025") {
         throw new NotFoundException(`User with id: ${id} not found`);
       }
       throw error;
