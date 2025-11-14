@@ -9,7 +9,7 @@ import {
   ParseIntPipe,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
-import { CreateUserDto, UpdateUserDto } from "./dto";
+import { CreateUserDto, UpdateUserDto, LoginUserDto } from "./dto";
 
 @Controller("users")
 export class UsersController {
@@ -27,10 +27,16 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  // POST /users
-  @Post()
+  // POST /users/register
+  @Post("register")
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+
+  // POST /users/login
+  @Post("login")
+  login(@Body() loginUserDto: LoginUserDto) {
+    return this.usersService.login(loginUserDto);
   }
 
   // PATCH /users/:id

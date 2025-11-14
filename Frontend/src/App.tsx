@@ -4,14 +4,19 @@ function App() {
   const navigate = useNavigate();
   
   return (
-    <div className="flex flex-col border gap-y-4 p-4">
-      <h1 >This will be our landing page</h1>
-      <button 
-        className="bg-purple-700 rounded cursor-pointer p-4 hover:bg-purple-800"
-        onClick={() => navigate("/dashboard")}
-      >
-        Click here to navigate to Dashboard
-      </button>
+    <div className="flex h-screen justify-center">
+      <div className="flex flex-col justify-center items-center gap-y-4">
+        <h1 className="text-3xl">Welcome to Farm N Cram</h1>
+        <button 
+          className="bg-purple-700 rounded cursor-pointer p-4 hover:bg-purple-800"
+          onClick={() => navigate("/dashboard")}
+        >
+          Create account
+        </button>
+        <button className="cursor-pointer underline hover:text-gray-400">
+          Already have an account? Sign in here
+        </button>
+      </div>
     </div>
   )
 }

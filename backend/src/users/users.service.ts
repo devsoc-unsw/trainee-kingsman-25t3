@@ -1,6 +1,12 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { DatabaseService } from "src/database/database.service";
-import { CreateUserDto, UpdateUserDto } from "./dto";
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from "./dto";
+import bcrypt from "bcrypt";
 
 @Injectable()
 export class UsersService {
@@ -25,9 +31,53 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    return this.databaseService.user.create({
-      data: createUserDto,
+    const checkEmail = await this.databaseService.user.findFirst({
+      where: {
+        email: createUserDto.email,
+      },
     });
+
+    if (checkEmail) {
+      throw new ConflictException(
+        `Email: ${createUserDto.email} already registered`,
+      );
+    }
+
+    const hashedCreateUserDto = {
+      ...createUserDto,
+      password: await bcrypt.hash(createUserDto.password, 10),
+    };
+
+    return this.databaseService.user.create({
+      data: hashedCreateUserDto,
+    });
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    const user = await this.databaseService.user.findFirst({
+      where: {
+        email: loginUserDto.email,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        `Email: ${loginUserDto.email} not registered`,
+      );
+    }
+
+    bcrypt.compare(
+      loginUserDto.password,
+      user.password,
+      function (err, result) {
+        if (result) {
+          console.log("Valid login", user);
+          return user;
+        } else {
+          throw new BadRequestException("Incorrect password");
+        }
+      },
+    );
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
