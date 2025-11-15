@@ -1,10 +1,9 @@
 import axios from "axios";
 import { BASE_API_URL } from "./base_url";
 
-export const login = async (name: string, email: string, password: string) => {
+export const login = async (email: string, password: string) => {
   try {
-    const response = await axios.post(`${BASE_API_URL}/users`, {
-      name,
+    const response = await axios.post(`${BASE_API_URL}/users/login`, {
       email,
       password,
     });
@@ -17,7 +16,7 @@ export const login = async (name: string, email: string, password: string) => {
 
 export const register = async (email: string, password: string) => {
   try {
-    const response = await axios.post(`${BASE_API_URL}/users`, {
+    const response = await axios.post(`${BASE_API_URL}/users/register`, {
       email,
       password,
     });

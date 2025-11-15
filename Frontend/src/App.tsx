@@ -13,7 +13,10 @@ function App() {
         >
           Create account
         </button>
-        <button className="cursor-pointer underline hover:text-gray-400">
+        <button 
+          onClick={() => navigate("/auth/login")}
+          className="cursor-pointer underline hover:text-gray-400"
+        >
           Already have an account? Sign in here
         </button>
       </div>
