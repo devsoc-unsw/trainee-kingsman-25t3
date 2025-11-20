@@ -20,14 +20,18 @@ Starting from your root directory:
 ### 2.1. Frontend
 
 ```cd Frontend```
-then
-run ```npm  install``` or ```npm i```
+
+then run 
+
+```npm  install``` or ```npm i```
 
 ### 2.2. Backend
 
 ```cd backend```
-then
-run ```npm  install``` or ```npm i```
+
+then run 
+
+```npm  install``` or ```npm i```
 
 ### 3. Running the environment
 
@@ -41,4 +45,4 @@ run ```npm run dev```
 
 In your backend path
 
-run ```blah blah blah```
+run ```npm run start:dev```
