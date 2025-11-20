@@ -23,7 +23,7 @@ Starting from your root directory:
 
 then run 
 
-```npm  install``` or ```npm i```
+```npm install``` or ```npm i```
 
 ### 2.2. Backend
 
@@ -31,7 +31,7 @@ then run
 
 then run 
 
-```npm  install``` or ```npm i```
+```npm install``` or ```npm i```
 
 ### 3. Running the environment
 
