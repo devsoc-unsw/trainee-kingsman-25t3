@@ -6,6 +6,7 @@ import "./index.css";
 // Pages
 import App from "./App.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+import Login from "./pages/Login.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -13,6 +14,7 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
