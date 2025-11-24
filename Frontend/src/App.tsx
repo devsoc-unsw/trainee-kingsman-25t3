@@ -24,13 +24,25 @@ function App() {
           Log-In and Sign-Up
         </button>
       </div>
-      <div className="absolute bottom-0 left-0 h-1/4 pointer-events-none flex justify-between px-10">
-        <Canvas >
+      <div className="absolute bottom-0 left-0 h-1/3 w-full pointer-events-none px-10">
+
+        <Canvas camera={{ position: [0, 0, 15], fov: 50 }}>
           {/* <OrbitControls enableZoom={false} /> */}
           <ambientLight intensity={0.7} />
           <directionalLight position={[-2, 5, 2]} intensity={1} />
-          <Tree />
+          <group position={[0, 0, 0]}>
+            {Array.from({ length: 5 }).map((_, index, arr) => {
+              const treeCount = arr.length;
+        const canvasWidth = 40; // logical width for spacing in scene units
+        const spacing = canvasWidth / (treeCount - 1); // calculate spacing dynamically
+        const x = -canvasWidth / 2 + index * spacing; 
+        return <Tree key={index} position={[x, 0, 0]} />;
+              
+              })}
+          </group>
         </Canvas>
+       
+        
         {/* <Canvas className=" h-full mt-7">
           <OrbitControls enableZoom={false} />
           <ambientLight intensity={0.7} />

@@ -3,7 +3,7 @@ import { Group } from "three";
 import { useFrame } from "@react-three/fiber";
 import { MeshDistortMaterial, Sphere } from "@react-three/drei";
 
-export default function Tree() {
+export default function Tree({ position = [0, 0, 0] }) {
   const group = useRef<Group>(null);
 
   // Optional sway animation
@@ -14,15 +14,15 @@ export default function Tree() {
   });
 
   return (
-    <group ref={group}>
+    <group ref={group} position={position}>
 
       <mesh rotation={[0, 0, 0]} position={[0, -5, 0]}>
-        <cylinderGeometry attach="geometry" args={[0.2, 0.2, 10]} />
+        <cylinderGeometry attach="geometry" args={[0.3, 0.3, 10]} />
         <meshLambertMaterial attach="material" color="brown" />
       </mesh>
 
-      <Sphere visible args={[1, 100, 200]} scale={2.5} position={[0, 0, 0]}>
-        <MeshDistortMaterial color="#00cd71" attach="material" distort={0.4} speed={2} roughness={0.5}/>
+      <Sphere visible args={[1, 100, 200]} scale={3.25} position={[0, -1, 0]}>
+        <MeshDistortMaterial color="#00cd71" attach="material" distort={0.3} speed={2} roughness={0.5}/>
       </Sphere>
 
     </group>
