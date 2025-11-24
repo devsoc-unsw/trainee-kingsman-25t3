@@ -21,7 +21,7 @@ export default function Tree({ position = [0, 0, 0] }) {
         <meshLambertMaterial attach="material" color="brown" />
       </mesh>
 
-      <Sphere visible args={[1, 100, 200]} scale={3.25} position={[0, -1, 0]}>
+      <Sphere visible args={[1, 100, 200]} scale={4} position={[0, -2, 0]}>
         <MeshDistortMaterial color="#00cd71" attach="material" distort={0.3} speed={2} roughness={0.5}/>
       </Sphere>
 

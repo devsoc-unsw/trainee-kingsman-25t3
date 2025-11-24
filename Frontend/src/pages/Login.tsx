@@ -1,5 +1,7 @@
+import { Canvas } from "@react-three/fiber";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
+import Tree from "../components/Tree";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,9 +18,9 @@ const Login = () => {
 
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#213547] text-white">
+    <div className="relative flex justify-center items-center min-h-screen bg-[#213547] text-white">
 
-      <div className="flex flex-col justify-center items-center border-2 p-4 gap-y-4 w-1/2">
+      <div className="flex flex-col justify-center items-center border-2 p-4 gap-y-4 w-1/2 z-99">
         <h1 className="text-3xl">Login to ...</h1>
 
         <div className="flex flex-col gap-y-4 w-1/2">
@@ -70,6 +72,32 @@ const Login = () => {
           </span>
         </p>
       </div>
+      <div className="absolute bottom-0 left-0 h-1/3 w-full pointer-events-none">
+      
+              <Canvas orthographic camera={{ position: [0, 0, 10], zoom: 15 }}>
+                <ambientLight intensity={1} />
+                <directionalLight position={[-2, 5, 2]} intensity={1} />
+                <group position={[0, 0, -3]}>
+                  {Array.from({ length: 12 }).map((_, index, arr) => {
+                    const treeCount = arr.length;
+                    const canvasWidth = 100; // logical width for spacing in scene units
+                    const spacing = canvasWidth / (treeCount - 1); // calculate spacing dynamically
+                    const x = -canvasWidth / 2 + index * spacing;
+      
+                    return <Tree key={index} position={[x, 0, 0]} />;
+                        
+                  })}
+                </group>
+              </Canvas>
+             
+              
+              {/* <Canvas className=" h-full mt-7">
+                <OrbitControls enableZoom={false} />
+                <ambientLight intensity={0.7} />
+                <directionalLight position={[-2, 5, 2]} intensity={1} />
+                <AnimatedSphere />
+              </Canvas> */}
+            </div>
     </div>
   )
 }
