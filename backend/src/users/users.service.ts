@@ -73,19 +73,19 @@ export class UsersService {
       );
     }
 
-    bcrypt.compare(
+    const isPasswordValid = await bcrypt.compare(
       loginUserDto.password,
       user.password,
-      function (err, result) {
-        if (result) {
-          const token = jwt.sign(user, process.env.JWT_SECRET!);
-          const userId = user.id;
-          return { userId, token };
-        } else {
-          throw new BadRequestException("Incorrect password");
-        }
-      },
     );
+
+    if (!isPasswordValid) {
+      throw new BadRequestException("Incorrect password");
+    }
+
+    const token = jwt.sign(user, process.env.JWT_SECRET!);
+    const userId = user.id;
+
+    return { userId, token };
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
