@@ -2,6 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { useNavigate } from "react-router-dom";
 
 import Tree from "./components/Tree";
+import { Cloud } from "@react-three/drei";
 
 function App() {
   const navigate = useNavigate();
@@ -24,12 +25,26 @@ function App() {
           Log-In and Sign-Up
         </button>
       </div>
-      <div className="absolute bottom-0 left-0 h-1/3 w-full pointer-events-none">
+      <div className="absolute top-0 left-0 h-full w-full pointer-events-none">
 
         <Canvas orthographic camera={{ position: [0, 0, 10], zoom: 15 }}>
           <ambientLight intensity={1} />
           <directionalLight position={[-2, 5, 2]} intensity={1} />
-          <group position={[0, 0, -3]}>
+
+          {/* clouds in arch */}
+          <Cloud opacity={1} speed={1} segments={30} color="#fff" position={[-40, -5, 0]} scale={1.5} />
+          <Cloud opacity={1} speed={1} segments={30} color="#fff" position={[-30, 10, 0]} scale={1.75} />
+          <Cloud opacity={1} speed={0.5} segments={20} color="#fff" position={[0, 20, 0]} scale={2} />
+          <Cloud opacity={1} speed={1} segments={30} color="#fff" position={[30, 10, 0]} scale={1.75} />
+          <Cloud opacity={1} speed={1} segments={30} color="#fff" position={[40, -5, 0]} scale={1.5} />
+          
+          {/* middle clouds */}
+          <Cloud opacity={1} speed={1} segments={15} color="#fff" position={[-10, 0, 0]} scale={1.75} />
+          <Cloud opacity={1} speed={1} segments={15} color="#fff" position={[15, -5, 0]} scale={1.75} />
+          
+          <Cloud opacity={1} speed={1} segments={20} color="#fff" position={[-45, 20, 0]} scale={1.5} />
+          
+          <group position={[0, -16, -3]}>
             {Array.from({ length: 12 }).map((_, index, arr) => {
               const treeCount = arr.length;
               const canvasWidth = 100; // logical width for spacing in scene units
