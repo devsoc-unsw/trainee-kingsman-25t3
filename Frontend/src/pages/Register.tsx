@@ -30,7 +30,7 @@ const Register = () => {
     <div className="relative flex justify-center items-center min-h-screen bg-[#213547] text-white">
       <ForestBackground />
       <div className="flex flex-col justify-center items-center border-2 p-4 gap-y-4 w-1/2 z-99">
-        <h1 className="text-3xl">Register with Study Farm</h1>
+        <h1 className="text-3xl">Register with Farm 'n Cram</h1>
 
         <div className="flex flex-col gap-y-4 w-1/2">
           <h2>Email</h2>
