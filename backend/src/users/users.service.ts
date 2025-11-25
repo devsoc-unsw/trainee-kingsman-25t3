@@ -7,6 +7,7 @@ import {
 import { DatabaseService } from "src/database/database.service";
 import { CreateUserDto, LoginUserDto, UpdateUserDto } from "./dto";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 @Injectable()
 export class UsersService {
@@ -30,7 +31,7 @@ export class UsersService {
     return foundUser;
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async register(createUserDto: CreateUserDto) {
     const checkEmail = await this.databaseService.user.findFirst({
       where: {
         email: createUserDto.email,
@@ -48,9 +49,15 @@ export class UsersService {
       password: await bcrypt.hash(createUserDto.password, 10),
     };
 
-    return this.databaseService.user.create({
+    const newUser = await this.databaseService.user.create({
       data: hashedCreateUserDto,
     });
+
+    const newUserId = newUser.id;
+
+    const token = jwt.sign(newUser, process.env.JWT_SECRET!);
+
+    return { newUserId, token };
   }
 
   async login(loginUserDto: LoginUserDto) {
@@ -71,8 +78,9 @@ export class UsersService {
       user.password,
       function (err, result) {
         if (result) {
-          console.log("Valid login", user);
-          return user;
+          const token = jwt.sign(user, process.env.JWT_SECRET!);
+          const userId = user.id;
+          return { userId, token };
         } else {
           throw new BadRequestException("Incorrect password");
         }
