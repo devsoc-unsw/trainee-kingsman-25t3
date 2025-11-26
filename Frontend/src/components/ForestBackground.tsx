@@ -5,7 +5,7 @@ import Tree from './Tree';
 
 const ForestBackground = React.memo(function ForestBackground() {
   return (
-    <div className="absolute top-0 left-0 h-full w-full pointer-events-none">
+    <div className="absolute top-0 left-0 h-full w-full pointer-events-none -z-99">
       <Canvas orthographic camera={{ position: [0, 0, 10], zoom: 15 }}>
         <directionalLight position={[2, 5, 2]} intensity={4} />
         <ambientLight intensity={1} />
