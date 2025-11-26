@@ -7,8 +7,8 @@ const ForestBackground = React.memo(function ForestBackground() {
   return (
     <div className="absolute top-0 left-0 h-full w-full pointer-events-none">
       <Canvas orthographic camera={{ position: [0, 0, 10], zoom: 15 }}>
+        <directionalLight position={[2, 5, 2]} intensity={4} />
         <ambientLight intensity={1} />
-        <directionalLight position={[-2, 5, 2]} intensity={1.5} />
         {/* clouds in arch */}
         <Cloud opacity={1} speed={1} segments={30} color="#fff" position={[-40, -5, 0]} scale={1.5}/>
         <Cloud opacity={1} speed={1} segments={30} color="#fff" position={[-30, 10, 0]} scale={1.75}/>

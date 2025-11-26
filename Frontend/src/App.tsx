@@ -8,7 +8,7 @@ function App() {
   const navigate = useNavigate();
   
   return (
-    <div className="relative flex justify-center items-center min-h-screen bg-[#0e77d6] font-semibold text-black p-0">
+    <div className="relative flex justify-center items-center min-h-screen bg-[#1c96c5] font-semibold text-black p-0">
       <div className="flex flex-col justify-center items-center border-2 gap-y-4 p-4 w-1/2 z-99">
         <h1 className="text-3xl">Farm 'n Cram</h1>
         <p>Insert some animation or icon here...</p>
