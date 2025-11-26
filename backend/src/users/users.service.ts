@@ -1,6 +1,13 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { DatabaseService } from "src/database/database.service";
-import { CreateUserDto, UpdateUserDto } from "./dto";
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from "./dto";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 @Injectable()
 export class UsersService {
@@ -24,10 +31,61 @@ export class UsersService {
     return foundUser;
   }
 
-  async create(createUserDto: CreateUserDto) {
-    return this.databaseService.user.create({
-      data: createUserDto,
+  async register(createUserDto: CreateUserDto) {
+    const checkEmail = await this.databaseService.user.findFirst({
+      where: {
+        email: createUserDto.email,
+      },
     });
+
+    if (checkEmail) {
+      throw new ConflictException(
+        `Email: ${createUserDto.email} already registered`,
+      );
+    }
+
+    const hashedCreateUserDto = {
+      ...createUserDto,
+      password: await bcrypt.hash(createUserDto.password, 10),
+    };
+
+    const newUser = await this.databaseService.user.create({
+      data: hashedCreateUserDto,
+    });
+
+    const newUserId = newUser.id;
+
+    const token = jwt.sign(newUser, process.env.JWT_SECRET!);
+
+    return { newUserId, token };
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    const user = await this.databaseService.user.findFirst({
+      where: {
+        email: loginUserDto.email,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        `Email: ${loginUserDto.email} not registered`,
+      );
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      loginUserDto.password,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      throw new BadRequestException("Incorrect password");
+    }
+
+    const token = jwt.sign(user, process.env.JWT_SECRET!);
+    const userId = user.id;
+
+    return { userId, token };
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
