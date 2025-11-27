@@ -27,7 +27,7 @@ const Register = () => {
   }
  
   return (
-    <div className="relative flex justify-center items-center min-h-screen bg-[#213547] text-white z-99">
+    <div className="relative flex justify-center items-center min-h-screen bg-linear-to-b from-[#005fbf] to-white text-white z-99">
       <ForestBackground />
       <div className="flex flex-col justify-center items-center border-2 p-4 gap-y-4 w-1/2">
         <h1 className="text-3xl">Register with Farm 'n Cram</h1>

@@ -104,7 +104,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="h-screen flex justify-center items-center bg-linear-to-b from-[#005fbf] to-white">
       <div className="flex flex-col gap-y-4 border h-[60%] w-[50%] justify-center items-center p-4">
         <div className="flex flex-col w-full gap-y-2">
           {error && <p className="text-red-500">Incorrect email or password</p>}

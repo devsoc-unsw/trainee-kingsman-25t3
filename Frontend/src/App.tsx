@@ -6,8 +6,8 @@ function App() {
   const navigate = useNavigate();
   
   return (
-    <div className="flex h-screen justify-center">
-      <div className="flex flex-col justify-center items-center gap-y-4">
+    <div className="flex bg-linear-to-b from-[#005fbf] to-white h-screen justify-center">
+      <div className="flex flex-col justify-center items-center gap-y-4 z-99">
         <ForestBackground />
         <h1 className="text-3xl">Welcome to Farm N Cram</h1>
         <button 
