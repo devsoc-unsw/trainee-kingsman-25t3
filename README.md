@@ -1,8 +1,8 @@
-# 25T3 Team Kingsman - [Project name]
+# 25T3 Team Kingsman - Farm N Cram
 
 ## 📦 Project Setup
 
-This repository contains both frontend and backend applications for [...].
+This repository contains both frontend and backend environment setup instructions for Farm N Cram.
 
 ## 🚀 Getting Started
 

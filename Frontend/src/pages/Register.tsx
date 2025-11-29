@@ -92,7 +92,7 @@ const Register = () => {
           <span className="m-1">
             <button 
               className="bg-purple-700 rounded p-1.5 cursor-pointer hover:bg-purple-800"
-              onClick={() => navigate("/login")}>
+              onClick={() => navigate("/auth/login")}>
               Log In
             </button>
           </span>
