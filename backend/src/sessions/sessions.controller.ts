@@ -18,7 +18,7 @@ export class SessionsController {
 
   @Post()
   create(@Body() createSessionDto: CreateSessionDto) {
-    return this.sessionsService.create(createSessionDto);
+    return this.sessionsService.createSessions(createSessionDto);
   }
 
   // @Get()
@@ -26,9 +26,9 @@ export class SessionsController {
   //   return this.sessionsService.findAll();
   // }
 
-  @Get("userId")
-  findOne(@Param("userId", ParseIntPipe) userId: number) {
-    return this.sessionsService.findOne(userId);
+  @Get(":userId")
+  getSessions(@Param("userId", ParseIntPipe) userId: number) {
+    return this.sessionsService.getSessions(userId);
   }
 
   @Patch(":id")
@@ -36,11 +36,11 @@ export class SessionsController {
     @Param("id", ParseIntPipe) id: number,
     @Body() updateSessionDto: UpdateSessionDto,
   ) {
-    return this.sessionsService.update(+id, updateSessionDto);
+    return this.sessionsService.updateSession(id, updateSessionDto);
   }
 
   @Delete(":id")
   delete(@Param("id", ParseIntPipe) id: number) {
-    return this.sessionsService.remove(id);
+    return this.sessionsService.deleteSession(id);
   }
 }
