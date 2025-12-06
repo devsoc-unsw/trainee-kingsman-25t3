@@ -60,3 +60,22 @@ model Session {
   createdAt   DateTime @default(now())
   type        String
 }
+
+model Plant {
+  id          Int       @id @default(autoincrement())
+  name        String
+  imageUrl    String?
+  rarity      String
+  value       Int
+  userPlants  UserPlant[]
+}
+
+model UserPlant {
+  id          Int       @id @default(autoincrement())
+  createdBy   User      @relation(fields: [userId], references: [id])
+  userId      Int
+  plant       Plant     @relation(fields: [plantId], references: [id])
+  plantId     Int
+  position    String?
+  plantedAt   DateTime  @default(now())
+}

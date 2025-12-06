@@ -9,6 +9,9 @@ const Register = () => {
   const [passConfirmVisible, setConfirmVisible] = useState(false)
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
 
   const passwordToggle = () => {
     setPasswordVisible(!passwordVisible)
@@ -24,6 +27,17 @@ const Register = () => {
 
   const passConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value)
+  }
+
+  const handleRegister = () => {
+    try {
+      setIsLoading(true);
+      setError("");
+
+      
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Login failed");
+    }
   }
  
   return (
