@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"
 
 import ForestBackground from "../components/ForestBackground";
+import { register } from "../endpoints/auth";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const Register = () => {
   const [passConfirmVisible, setConfirmVisible] = useState(false)
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -29,12 +31,15 @@ const Register = () => {
     setConfirmPassword(e.target.value)
   }
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     try {
       setIsLoading(true);
       setError("");
 
-      
+      const response = await register(email, password);
+      console.log("Login successful:", response.data);
+
+      navigate("/dashboard")
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     }
@@ -47,8 +52,9 @@ const Register = () => {
         <h1 className="text-3xl">Register with Farm 'n Cram</h1>
 
         <div className="flex flex-col gap-y-4 w-1/2">
+          {error && <p className="text-red-500">Invalid email or password</p>}
           <h2>Email</h2>
-          <input placeholder="Email" className="border-2 text-black p-2 bg-white"></input>
+          <input placeholder="Email" className="border-2 text-black p-2 bg-white" onChange={(e) => setEmail(e.target.value)}></input>
           <h2>Username</h2>
           <input placeholder="Username" className="border-2 text-black p-2 bg-white"></input>
           <h2>Password</h2>
@@ -99,8 +105,9 @@ const Register = () => {
         </div>
         <button 
           className="bg-purple-700 rounded py-3 px-4 cursor-pointer hover:bg-purple-800"
-          onClick={() => navigate("/")}>
-          Register
+          onClick={() => handleRegister()}
+        >
+          {isLoading ? `Registering...` : `Register`}
         </button>
         <p>Already have an account? 
           <span className="m-1">
