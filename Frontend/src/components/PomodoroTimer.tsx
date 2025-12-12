@@ -3,6 +3,11 @@ import React, { useState, useEffect } from "react";
 const PomodoroTimer = () => {
     const [focusMinutes, setFocusMinutes] = useState(25); // default 25 mins
     const [breakMinutes, setBreakMinutes] = useState(5); // default 5 mins
+    
+    // to keep memory of the changed duration
+    const [focusDuration, setFocusDuration] = useState(25);
+    const [breakDuration, setBreakDuration] = useState(5);
+
     const [seconds, setSeconds] = useState(0);
     const [isPaused, setIsPaused] = useState(true); // start as paused
 
@@ -59,7 +64,20 @@ const PomodoroTimer = () => {
                     setSeconds(59);
 
                 } else { // end of timer
-                    clearInterval(interval);
+                    // clearInterval(interval);
+                    const bellSound = new Audio('/timerBell.wav');
+                    bellSound.play();
+                    if (mode === 'focus') {
+                        setMode('break');
+                        setBreakMinutes(breakDuration); // set to memory value
+                        setSeconds(0);
+
+                    } else {
+                        setMode('focus');
+                        setFocusMinutes(focusDuration); // set to memory value
+                        setSeconds(0);
+                        setIsPaused(true);
+                    }
                 }
             }
         }, 1000); // run every second
@@ -102,13 +120,19 @@ const PomodoroTimer = () => {
                     className="bg-gray-200 text-gray-800 w-10 h-10 rounded-full hover:bg-gray-300 font-bold text-x"
                     onClick = {() => {
                         if (mode === 'focus') {
-                            setFocusMinutes(focusMinutes - 1);
+                            if (focusDuration >= 1) {
+                                setFocusMinutes(focusMinutes - 1);
+                                setFocusDuration(focusDuration - 1);
+                            }
                         } else {
-                            setBreakMinutes(breakMinutes - 1);
+                            if (breakDuration >= 1) {
+                                setBreakMinutes(breakMinutes - 1);
+                                setBreakDuration(breakDuration - 1);
+                            }
                         }
                     }}
-                    >
-                        -
+                >
+                    -
                 </button>
 
                 <button 
@@ -116,12 +140,14 @@ const PomodoroTimer = () => {
                     onClick = {() => {
                         if (mode === 'focus') {
                             setFocusMinutes(focusMinutes + 1);
+                            setFocusDuration(focusDuration + 1);
                         } else {
                             setBreakMinutes(breakMinutes + 1);
+                            setBreakDuration(breakDuration + 1);
                         }
                     }}
-                    >
-                        +
+                >
+                    +
                 </button>
             </div>
                     
@@ -141,8 +167,14 @@ const PomodoroTimer = () => {
                         setIsPaused(true); // pause timer
                         setSeconds(0); // reset seconds
                         // reset minutes to default based on mode
-                        if(mode === 'focus') setFocusMinutes(25);
-                        else setBreakMinutes(5);
+                        if(mode === 'focus') {
+                            setFocusMinutes(25);
+                            setFocusDuration(25);
+                        }
+                        else {
+                            setBreakMinutes(5);
+                            setBreakDuration(5);
+                        }
                     }}
                 >
                     Reset
