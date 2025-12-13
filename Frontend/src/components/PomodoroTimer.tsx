@@ -168,7 +168,7 @@ const PomodoroTimer = () => {
                         type="number"
                         min="0"
                         max="99"
-                        value={displayedTime}
+                        value={displayedTime.toString().padStart(2, '0')}
                         className="w-20 bg-transparent text-right pl-1 outline-none border-b-2 border-transparent focus:border-[#568b62] transition-colors"
                         onClick={() => setIsPaused(true)}
                         onChange={(e) => {
