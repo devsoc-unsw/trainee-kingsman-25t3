@@ -119,7 +119,7 @@ const PomodoroTimer = () => {
 
     return (
         <div className="flex flex-col items-center p-6 bg-white text-black rounded-xl shadow-lg border-2 border-green-500">
-            <h1 className="text-3xl font-bold mb-3 text-green-700">Pomodoro Timer</h1>
+            {/* <h1 className="text-3xl font-bold mb-3 text-green-700">Pomodoro Timer</h1> */}
 
             {/* mode buttons */}
             <div className="flex gap-4 mb-1">
