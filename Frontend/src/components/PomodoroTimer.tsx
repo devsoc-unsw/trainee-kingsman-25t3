@@ -86,12 +86,43 @@ const PomodoroTimer = () => {
 
     }, [isPaused, seconds, focusMinutes, breakMinutes, mode]);
 
+    const isTimerActive = mode === 'focus' 
+        ? (focusMinutes !== focusDuration || seconds !== 0)
+        : (breakMinutes !== breakDuration || seconds !== 0);
+
+    // determine total seconds remaining for the timer
+    let totalSecondsLeft;
+    if (mode === 'focus') {
+        totalSecondsLeft = focusMinutes * 60 + seconds;
+    } else {
+        totalSecondsLeft = breakMinutes * 60 + seconds;
+    }
+
+    let totalDurationInSeconds;
+    if (mode === 'focus') {
+        totalDurationInSeconds = focusDuration * 60;
+    } else {
+        totalDurationInSeconds = breakDuration * 60;
+    }
+
+    // calculate percentage
+    let percentage = totalSecondsLeft / totalDurationInSeconds;
+
+    // break mode outlines the circumference, focus mode, removes coloured outline 
+    if (mode === 'break') {
+        percentage = 1 - percentage;
+    }
+
+    const circleRadius = 90;
+    const circumference = 2 * Math.PI * circleRadius;
+    const strokeDashoffset = circumference - (percentage * circumference);
+
     return (
         <div className="flex flex-col items-center p-6 bg-white text-black rounded-xl shadow-lg border-2 border-green-500">
-            <h1 className="text-3xl font-bold mb-4 text-green-700">Pomodoro Timer</h1>
+            <h1 className="text-3xl font-bold mb-3 text-green-700">Pomodoro Timer</h1>
 
             {/* mode buttons */}
-            <div className="flex gap-4 mb-3">
+            <div className="flex gap-4 mb-1">
                 <button
                     onClick = {switchMode}
                     className={`font-bold ${focusButtonColour}`}
@@ -109,12 +140,66 @@ const PomodoroTimer = () => {
                 </button>
             </div>
 
-            {/* time display */}
-            <div className="text-5xl font-bold mb-3">
-                {displayedTime}:{seconds.toString().padStart(2, '0')}
+            <div className="relative flex items-center justify-center">
+                <svg width="220" height="220" className="transform -rotate-90">
+                    <circle
+                        cx="110" cy="110" r={circleRadius}
+                        stroke="currentColor"
+                        strokeWidth="10"
+                        fill="transparent"
+                        className="text-gray-200 opacity-30"
+                    />
+
+                    <circle
+                        cx="110" cy="110" r={circleRadius}
+                        stroke="currentColor"
+                        strokeWidth="10"
+                        fill="transparent"
+                        strokeDasharray={circumference}
+                        strokeDashoffset={strokeDashoffset}
+                        strokeLinecap="round"
+                        className="transition-all duration-1000 ease-linear text-[#568b62]"
+                    />
+                </svg>
+
+                
+                <div className="absolute text-5xl font-bold flex flex-row items-center justify-center">
+                    <input
+                        type="number"
+                        min="0"
+                        max="99"
+                        value={displayedTime}
+                        className="w-20 bg-transparent text-right pl-1 outline-none border-b-2 border-transparent focus:border-[#568b62] transition-colors"
+                        onClick={() => setIsPaused(true)}
+                        onChange={(e) => {
+                            const val = parseInt(e.target.value) || 0;
+                            if (val > 99) {
+                                return;
+                            }
+
+                            if (mode === 'focus') {
+                                setFocusMinutes(val);
+                                setFocusDuration(val);
+                            } else {
+                                setBreakMinutes(val);
+                                setBreakDuration(val);
+                            }
+                            setSeconds(0);
+                        }}
+                    />
+
+                    {/* time display */}
+                    <span className="pb-2">:</span>
+                    <div className="w-20 text-center">
+                        {seconds.toString().padStart(2, '0')}
+                    </div>
+                    {/* {displayedTime}:{seconds.toString().padStart(2, '0')} */}
+                </div>
+
             </div>
 
-            {/* increase or decrease time */}
+
+            {/* increase or decrease time
             <div className="flex gap-4 mb-6">
                 <button 
                     className="bg-gray-200 text-gray-800 w-10 h-10 rounded-full hover:bg-gray-300 font-bold text-x"
@@ -149,20 +234,19 @@ const PomodoroTimer = () => {
                 >
                     +
                 </button>
-            </div>
+            </div> */}
                     
-            <div className="flex gap-4 mb-6">
+            <div className="flex gap-4">
                 <button
-                    className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-bold"
+                    className="w-20 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-bold"
                     onClick={() => {setIsPaused(!isPaused)}}
                 >
                     {/* if currently paused, show Start button. if currently running, show pause button */}
-                    {isPaused ? "Start" : "Pause"} 
-
+                    {!isPaused ? "Pause" : isTimerActive ? "Resume" : "Start"} 
                 </button>
 
                 <button 
-                    className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 font-bold"
+                    className="w-20 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 font-bold"
                     onClick={() => {
                         setIsPaused(true); // pause timer
                         setSeconds(0); // reset seconds
