@@ -40,13 +40,11 @@ const getErrorMessage = (err: unknown, defaultMessage: string): string => {
       }
     }
 
-    // Network error or no response from server
     if (axiosError.request) {
       return "Unable to connect to server. Please check your internet connection";
     }
   }
 
-  // Unknown error
   return defaultMessage;
 };
 
@@ -64,7 +62,11 @@ export const login = async (email: string, password: string) => {
   }
 };
 
-export const register = async (email: string, name: string, password: string) => {
+export const register = async (
+  email: string,
+  name: string,
+  password: string
+) => {
   try {
     const response = await axios.post(`${BASE_API_URL}/users/register`, {
       email,
