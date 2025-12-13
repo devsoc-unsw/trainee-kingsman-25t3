@@ -9,15 +9,24 @@ import Dashboard from "./pages/Dashboard.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 
+// Components
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/auth/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/register" element={<Register />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   </StrictMode>
