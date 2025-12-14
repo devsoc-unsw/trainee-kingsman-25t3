@@ -22,3 +22,16 @@ export const createSession = async (
     throw new Error(errorMessage);
   }
 };
+
+export const getSession = async (
+  userId: number
+) => {
+  try {
+    const response = await axios.get(`${BASE_API_URL}/sessions/${userId}`);
+    return response;
+  } catch (err: unknown) {
+    const errorMessage = getErrorMessage(err, "Session creation failed");
+    console.error("Session creation error:", errorMessage, err);
+    throw new Error(errorMessage);
+  }
+}

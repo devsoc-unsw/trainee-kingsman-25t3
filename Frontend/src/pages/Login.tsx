@@ -18,7 +18,6 @@ const Login = () => {
 
       const response = await login(email, password);
 
-      console.log("Login successful:", response.data);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.userId);
       navigate("/dashboard");

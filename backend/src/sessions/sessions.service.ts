@@ -10,16 +10,7 @@ import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class SessionsService {
-  // to be completed
   constructor(private readonly databaseService: DatabaseService) {}
-
-  // findAll() {
-  //   return `This action returns all sessions`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} session`;
-  // }
 
   async getSessions(userId: number) {
     const sessions = await this.databaseService.session.findMany({
@@ -28,7 +19,29 @@ export class SessionsService {
       },
     });
 
-    return sessions;
+    const totalMinutes = sessions.reduce(
+      (accumulator, currValue) => accumulator + currValue.duration,
+      0,
+    );
+
+    console.log("============================", totalMinutes);
+
+    let hour: number = 0;
+    let minute: number = 0;
+
+    if (totalMinutes >= 60) {
+      hour = totalMinutes % 60;
+      minute = totalMinutes - hour * 60;
+    } else {
+      minute = totalMinutes;
+    }
+
+    const ret = {
+      count: sessions.length,
+      totalTime: `${hour}h ${minute}m`,
+    };
+
+    return ret;
   }
 
   async createSessions(createSessionDto: CreateSessionDto) {
