@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsDate, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { Type } from "class-transformer";
 
 export class CreateSessionDto {
   @IsNumber()
@@ -12,4 +13,9 @@ export class CreateSessionDto {
   @IsString()
   @IsNotEmpty()
   type: string;
+
+  @Type(() => Date)
+  @IsDate()
+  @IsNotEmpty()
+  completed: Date;
 }

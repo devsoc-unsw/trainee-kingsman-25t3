@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { CreateSessionDto } from "./dto/create-session.dto";
 import { UpdateSessionDto } from "./dto/update-session.dto";
 import { DatabaseService } from "src/database/database.service";
@@ -33,6 +37,7 @@ export class SessionsService {
     }
 
     if (!["focus", "break"].includes(createSessionDto.type)) {
+      console.log("here");
       throw new BadRequestException("Valid type sessions break and focus");
     }
 
@@ -42,8 +47,8 @@ export class SessionsService {
         userId: createSessionDto.userId,
         duration: createSessionDto.duration,
         type: createSessionDto.type,
-        done: false,
-        // completedAt: new Date(),
+        done: true,
+        completedAt: createSessionDto.completed,
       },
     });
 
