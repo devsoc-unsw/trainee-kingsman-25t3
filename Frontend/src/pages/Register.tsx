@@ -50,6 +50,7 @@ const Register = () => {
       const response = await register(email, username, password);
       console.log("Registration successful:", response.data);
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userId", response.data.newUserId);
       navigate("/dashboard");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed");
@@ -71,6 +72,7 @@ const Register = () => {
         )}
 
         <div className="flex flex-col gap-y-4 w-1/2">
+          {error && <p className="text-red-500">Invalid email or password</p>}
           <h2>Email</h2>
           <input
             placeholder="Email"

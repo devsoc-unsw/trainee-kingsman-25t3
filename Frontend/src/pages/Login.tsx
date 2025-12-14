@@ -20,6 +20,7 @@ const Login = () => {
 
       console.log("Login successful:", response.data);
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userId", response.data.userId);
       navigate("/dashboard");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
