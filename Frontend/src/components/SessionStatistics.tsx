@@ -5,11 +5,13 @@ const SessionStatistics = () => {
   const [error, setError] = useState("");
   const [sessionCompleted, setSessionCompleted] = useState();
   const [totalTime, setTotalTime] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   // Get past sessions statistics
   useEffect(() => {
     const handleGetSession = async () => {
       try {
+        setIsLoading(true);
         const response = await getSession(
           parseInt(localStorage.getItem("userId")!)
         );
@@ -18,6 +20,8 @@ const SessionStatistics = () => {
         setTotalTime(response.data.totalTime);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Login failed");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -32,6 +36,21 @@ const SessionStatistics = () => {
       </h3>
       {error ? (
         <p className="text-red-500">{error}</p>
+      ) : isLoading ? (
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <div className="h-4 bg-gray-600/50 rounded w-24 animate-pulse"></div>
+            <div className="h-4 bg-gray-600/50 rounded w-16 animate-pulse"></div>
+          </div>
+          <div className="flex justify-between items-center">
+            <div className="h-4 bg-gray-600/50 rounded w-32 animate-pulse"></div>
+            <div className="h-4 bg-gray-600/50 rounded w-8 animate-pulse"></div>
+          </div>
+          <div className="flex justify-between items-center">
+            <div className="h-4 bg-gray-600/50 rounded w-20 animate-pulse"></div>
+            <div className="h-4 bg-gray-600/50 rounded w-12 animate-pulse"></div>
+          </div>
+        </div>
       ) : (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
