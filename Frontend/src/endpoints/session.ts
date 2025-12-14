@@ -48,18 +48,19 @@ const getErrorMessage = (err: unknown, defaultMessage: string): string => {
   return defaultMessage;
 };
 
-export const createSession = async (duration: number, type: string, completed: Date) => {
+export const createSession = async (userId: number, duration: number, type: string, completedAt: Date) => {
   try {
-    const response = axios.post(`${BASE_API_URL}/sessions`, {
+    const response = await axios.post(`${BASE_API_URL}/sessions`, {
+      userId,
       duration,
       type,
-      completed
+      completedAt
     });
     console.log("response:" + response)
     return response;
   } catch (err: unknown) {
-    const errorMessage = getErrorMessage(err, "Registration failed");
-    console.error("Registration error:", errorMessage, err);
+    const errorMessage = getErrorMessage(err, "Session creation failed");
+    console.error("Session creation error:", errorMessage, err);
     throw new Error(errorMessage);
   }
 }

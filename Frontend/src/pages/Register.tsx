@@ -50,6 +50,7 @@ const Register = () => {
       const response = await register(email, username, password);
       console.log("Registration successful:", response.data);
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userId", response.data.newUserId);
       navigate("/dashboard");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed");

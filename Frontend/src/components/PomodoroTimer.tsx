@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { createSession } from "../endpoints/session";
 
 const PomodoroTimer = () => {
     const [focusMinutes, setFocusMinutes] = useState(25); // default 25 mins
     const [breakMinutes, setBreakMinutes] = useState(5); // default 5 mins
-    
+
     // to keep memory of the changed duration
     const [focusDuration, setFocusDuration] = useState(25);
     const [breakDuration, setBreakDuration] = useState(5);
@@ -14,6 +14,10 @@ const PomodoroTimer = () => {
 
     // states for timer
     const [mode, setMode] = useState('focus'); // default mode
+
+    // test mode for faster testing (100ms interval instead of 1000ms)
+    const [isTestMode, setIsTestMode] = useState(false);
+    const intervalSpeed = isTestMode ? 100 : 1000;
 
     const switchMode = () => {
         if (mode === 'focus') {
@@ -74,10 +78,14 @@ const PomodoroTimer = () => {
 
                         // current backend and endpoint implementation
                         createSession(
+                            parseInt(localStorage.getItem("userId")!),
                             focusDuration,
                             mode,
                             new Date(Date.now())
-                        ).catch(console.error)
+                        ).catch((error) => {
+                            console.error("Failed to create session:", error);
+                            alert("Failed to save session: " + error.message);
+                        });
 
                         setMode('break');
                         setBreakMinutes(breakDuration); // set to memory value
@@ -85,6 +93,7 @@ const PomodoroTimer = () => {
 
                     } else {
                         createSession(
+                            parseInt(localStorage.getItem("userId")!),
                             focusDuration,
                             mode,
                             new Date(Date.now())
@@ -97,13 +106,13 @@ const PomodoroTimer = () => {
                     }
                 }
             }
-        }, 1000); // run every second
+        }, intervalSpeed); // run based on test mode speed
 
         return () => clearInterval(interval);
 
-    }, [isPaused, seconds, focusMinutes, breakMinutes, mode]);
+    }, [isPaused, seconds, focusMinutes, breakMinutes, mode, intervalSpeed, focusDuration, breakDuration]);
 
-    const isTimerActive = mode === 'focus' 
+    const isTimerActive = mode === 'focus'
         ? (focusMinutes !== focusDuration || seconds !== 0)
         : (breakMinutes !== breakDuration || seconds !== 0);
 
@@ -137,6 +146,20 @@ const PomodoroTimer = () => {
     return (
         <div className="flex flex-col items-center p-6 bg-white text-black rounded-xl shadow-lg border-2 border-green-500">
             {/* <h1 className="text-3xl font-bold mb-3 text-green-700">Pomodoro Timer</h1> */}
+
+            {/* Test mode toggle */}
+            <div className="mb-2">
+                <button
+                    onClick={() => setIsTestMode(!isTestMode)}
+                    className={`text-xs px-3 py-1 rounded ${
+                        isTestMode
+                            ? 'bg-yellow-500 text-white font-bold'
+                            : 'bg-gray-200 text-gray-600'
+                    }`}
+                >
+                    {isTestMode ? '⚡ Test Mode (10x speed)' : 'Test Mode'}
+                </button>
+            </div>
 
             {/* mode buttons */}
             <div className="flex gap-4 mb-1">
