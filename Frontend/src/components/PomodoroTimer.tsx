@@ -49,12 +49,14 @@ const PomodoroTimer = () => {
         breakButtonColour = 'text-gray-400';
     }
     
+    // would want to create the recognised session after completion or when the user initialises regardless?
     useEffect(() => {
         if (isPaused) return; // do nothing
         
         const interval = setInterval(() => {
             if (seconds > 0) {
                 setSeconds(seconds - 1);
+
 
             } else if (seconds === 0) {
                 if (mode === 'focus' && focusMinutes > 0) {
@@ -82,6 +84,12 @@ const PomodoroTimer = () => {
                         setSeconds(0);
 
                     } else {
+                        createSession(
+                            focusDuration,
+                            mode,
+                            new Date(Date.now())
+                        ).catch(console.error)
+                        
                         setMode('focus');
                         setFocusMinutes(focusDuration); // set to memory value
                         setSeconds(0);

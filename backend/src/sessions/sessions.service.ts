@@ -43,9 +43,11 @@ export class SessionsService {
         duration: createSessionDto.duration,
         type: createSessionDto.type,
         done: false,
-        // completedAt: new Date(),
+        completedAt: new Date(),
       },
     });
+
+    console.log("New Session:" + newSession);
 
     return newSession;
   }

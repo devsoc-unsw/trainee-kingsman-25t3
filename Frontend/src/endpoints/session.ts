@@ -55,6 +55,7 @@ export const createSession = async (duration: number, type: string, completed: D
       type,
       completed
     });
+    console.log("response:" + response)
     return response;
   } catch (err: unknown) {
     const errorMessage = getErrorMessage(err, "Registration failed");
