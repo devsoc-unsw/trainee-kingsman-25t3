@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { createSession } from "../endpoints/session";
 
 const PomodoroTimer = () => {
     const [focusMinutes, setFocusMinutes] = useState(25); // default 25 mins
@@ -68,6 +69,14 @@ const PomodoroTimer = () => {
                     const bellSound = new Audio('/timerBell.wav');
                     bellSound.play();
                     if (mode === 'focus') {
+
+                        // current backend and endpoint implementation
+                        createSession(
+                            focusDuration,
+                            mode,
+                            new Date(Date.now())
+                        ).catch(console.error)
+
                         setMode('break');
                         setBreakMinutes(breakDuration); // set to memory value
                         setSeconds(0);
