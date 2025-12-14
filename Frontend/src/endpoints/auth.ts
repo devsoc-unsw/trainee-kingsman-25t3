@@ -34,3 +34,14 @@ export const register = async (
     throw new Error(errorMessage);
   }
 };
+
+export const getUserStreak = async (userId: number) => {
+  try {
+    const response = await axios.get(`${BASE_API_URL}/users/streak/${userId}`);
+    return response;
+  } catch (err: unknown) {
+    const errorMessage = getErrorMessage(err, "Failed to fetch user streak");
+    console.error("Get streak error:", errorMessage, err);
+    throw new Error(errorMessage);
+  }
+};

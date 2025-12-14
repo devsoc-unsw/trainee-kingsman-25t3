@@ -82,8 +82,24 @@ export class SessionsService {
 
     console.log("New Session:" + newSession);
 
-    const cacheKey = `user_sessions_stats_${createSessionDto.userId}`;
-    await this.cacheManager.del(cacheKey);
+    // update user streak
+    await this.databaseService.user.update({
+      where: {
+        id: createSessionDto.userId,
+      },
+      data: {
+        streak: {
+          increment: 1,
+        },
+      },
+    });
+
+    // Invalidate caches
+    const sessionCacheKey = `user_sessions_stats_${createSessionDto.userId}`;
+    await this.cacheManager.del(sessionCacheKey);
+
+    const streakCacheKey = `/users/streak/${createSessionDto.userId}`;
+    await this.cacheManager.del(streakCacheKey);
 
     return newSession;
   }
