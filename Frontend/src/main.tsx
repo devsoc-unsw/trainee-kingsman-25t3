@@ -8,6 +8,7 @@ import App from "./App.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
+import Tasks from "./pages/Tasks.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -18,6 +19,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/dashboard" element={<Dashboard />} />
         {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/register" element={<Register />} />
+        <Route path="/tasks" element={<Tasks />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

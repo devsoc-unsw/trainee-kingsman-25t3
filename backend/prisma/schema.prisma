@@ -14,14 +14,18 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String   
-  email     String   @unique
-  password  String
-  groups    Group[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  individualTasks IndividualTask[]
+  id                Int      @id @default(autoincrement())
+  username          String   @unique
+  email             String   @unique
+  passwordHash      String
+  bucks             Int      @default(0)
+  selectedCharacterId Int?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  tasks     Task[]
+  sessions  Session[]
+  groups    Group[] // Keep for now if needed, or remove if legacy
 }
 
 model Group {
@@ -32,14 +36,24 @@ model Group {
   updatedAt DateTime @updatedAt
 }
 
-model IndividualTask {
+model Task {
   id          Int      @id @default(autoincrement())
-  createdBy   User     @relation(fields: [userId], references: [id])
+  title       String
+  completed   Boolean  @default(false)
   userId      Int
-  description String
-  done        Boolean
+  user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt 
+  updatedAt   DateTime @updatedAt
+  completedAt DateTime?
+}
+
+model Session {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+  durationMinutes Int
+  sessionType     String   @default("POMODORO") // POMODORO, SHORT_BREAK, LONG_BREAK
+  completedAt     DateTime @default(now())
 }
 
 model GroupTask {
