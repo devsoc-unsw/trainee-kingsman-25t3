@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateSessionDto } from "./dto/create-session.dto";
 import { UpdateSessionDto } from "./dto/update-session.dto";
 import { DatabaseService } from "src/database/database.service";
@@ -28,10 +28,22 @@ export class SessionsService {
   }
 
   async createSessions(createSessionDto: CreateSessionDto) {
+    if (createSessionDto.duration < 1) {
+      throw new BadRequestException("Invalid session time");
+    }
+
+    if (!["focus", "break"].includes(createSessionDto.type)) {
+      throw new BadRequestException("Valid type sessions break and focus");
+    }
+
+    // question about the prisma generate and its version?
     const newSession = await this.databaseService.session.create({
       data: {
-        ...createSessionDto,
+        userId: createSessionDto.userId,
+        duration: createSessionDto.duration,
+        type: createSessionDto.type,
         done: false,
+        // completedAt: new Date(),
       },
     });
 

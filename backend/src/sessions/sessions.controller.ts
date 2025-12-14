@@ -16,6 +16,7 @@ import { UpdateSessionDto } from "./dto/update-session.dto";
 export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
+  // POST /sessions
   @Post()
   create(@Body() createSessionDto: CreateSessionDto) {
     return this.sessionsService.createSessions(createSessionDto);
