@@ -6,7 +6,10 @@ interface ErrorResponse {
   statusCode?: number;
 }
 
-export const getErrorMessage = (err: unknown, defaultMessage: string): string => {
+export const getErrorMessage = (
+  err: unknown,
+  defaultMessage: string
+): string => {
   if (axios.isAxiosError(err)) {
     const axiosError = err as AxiosError<ErrorResponse>;
 
