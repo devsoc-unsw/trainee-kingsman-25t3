@@ -22,11 +22,6 @@ export class SessionsController {
     return this.sessionsService.createSessions(createSessionDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.sessionsService.findAll();
-  // }
-
   @Get(":userId")
   getSessions(@Param("userId", ParseIntPipe) userId: number) {
     return this.sessionsService.getSessions(userId);

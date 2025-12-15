@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import PomodoroTimer from "../components/PomodoroTimer";
 import Header from "../components/Header";
+import SessionStatistics from "../components/SessionStatistics";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -37,26 +38,7 @@ const Dashboard = () => {
             </div>
 
             <div className="space-y-6">
-              <div className="bg-linear-to-br from-[#2a3c58] to-[#1e2c42] rounded-2xl p-6 shadow-2xl border border-gray-700/50">
-                <h3 className="text-lg font-semibold mb-4 flex items-center">
-                  <span className="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>
-                  Quick Stats
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Today's Focus</span>
-                    <span className="font-medium">1h 45m</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Completed Sessions</span>
-                    <span className="font-medium">3</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Weekly Goal</span>
-                    <span className="font-medium">75%</span>
-                  </div>
-                </div>
-              </div>
+              <SessionStatistics />
 
               <div className="bg-linear-to-br from-[#2a3c58] to-[#1e2c42] rounded-2xl p-6 shadow-2xl border border-gray-700/50">
                 <h3 className="text-lg font-semibold mb-4 flex items-center">
