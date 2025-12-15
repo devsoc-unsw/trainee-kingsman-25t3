@@ -12,8 +12,8 @@ export class PlantsService {
       console.log("Invalid userId and session");
     }
 
-    // to be fixed
-    const plants = await this.databaseService.userplant.findMany({
+    // to be fixed (awaiting any further checks and task completion feature maybe)
+    const plants = await this.databaseService.userPlant.findMany({
       where: {
         userId: userId,
       },
@@ -22,8 +22,31 @@ export class PlantsService {
     return plants;
   }
 
-  async createPlant(createPlantDto: CreatePlantDto) {
-    return "This action adds a new plant";
+  // async createPlant(createPlantDto: CreatePlantDto) {
+  //   return "This action adds a new plant";
+  // }
+
+  async rewardHandler(userId: number, createPlantDto: CreatePlantDto) {
+    // const plants = await this.databaseService.plant.findMany();
+    // const newPlant = plants[Math.floor(Math.random() * plants.length)];
+
+    // transaction used to simulate money transfer 
+    await this.databaseService.$transaction([
+      this.databaseService.plant.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          bucksValue: { increment: 5 },
+        },
+      }),
+      this.databaseService.userPlant.create({
+        data: {
+          userId,
+          plantId: createPlantDto.plantId,
+        },
+      }),
+    ]);
   }
 
   // get userPlants (or updating)

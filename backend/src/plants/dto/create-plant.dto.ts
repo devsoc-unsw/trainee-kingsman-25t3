@@ -6,5 +6,7 @@ export class CreatePlantDto {
   @IsInt()
   userId: number;
 
-  
+  @Type(() => Number)
+  @IsInt()
+  plantId: number;
 }
