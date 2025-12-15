@@ -10,22 +10,25 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("DATABASE_URL")
 }
+
 
 model User {
   id                Int      @id @default(autoincrement())
   username          String   @unique
   email             String   @unique
-  passwordHash      String
+  password          String
   bucks             Int      @default(0)
+  streak            Int      @default(0)
   selectedCharacterId Int?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   
-  tasks     Task[]
-  sessions  Session[]
-  groups    Group[] // Keep for now if needed, or remove if legacy
+  tasks       Task[]
+  sessions    Session[]
+  groups      Group[]
+  userPlants  UserPlant[]
 }
 
 model Group {
@@ -48,12 +51,15 @@ model Task {
 }
 
 model Session {
-  id              Int      @id @default(autoincrement())
-  userId          Int
-  user            User     @relation(fields: [userId], references: [id])
-  durationMinutes Int
-  sessionType     String   @default("POMODORO") // POMODORO, SHORT_BREAK, LONG_BREAK
-  completedAt     DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  duration    Int      // Duration in minutes
+  type        String   @default("POMODORO") // POMODORO, SHORT_BREAK, LONG_BREAK
+  done        Boolean  @default(false)
+  completedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model GroupTask {
@@ -62,4 +68,23 @@ model GroupTask {
   numTask     Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt 
+}
+
+model Plant {
+  id          Int         @id @default(autoincrement())
+  name        String
+  imageUrl    String?
+  rarity      String
+  value       Int
+  userPlants  UserPlant[]
+}
+
+model UserPlant {
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  plant       Plant     @relation(fields: [plantId], references: [id])
+  plantId     Int
+  position    Int       // Grid position index (0-8 or similar)
+  plantedAt   DateTime  @default(now())
 }

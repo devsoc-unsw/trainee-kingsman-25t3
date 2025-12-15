@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken";
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) { }
 
   async findAll() {
     return this.databaseService.user.findMany();
@@ -55,6 +55,29 @@ export class UsersService {
 
     const newUserId = newUser.id;
 
+    const token = jwt.sign(newUser, process.env.JWT_SECRET!);
+
+    return { newUserId, token };
+  }
+
+  async guestLogin() {
+    const timestamp = Date.now();
+    const guestUser = {
+      username: `guest_${timestamp}`,
+      email: `guest_${timestamp}@example.com`,
+      password: `guest_${timestamp}`,
+    };
+
+    const hashedCreateUserDto = {
+      ...guestUser,
+      password: await bcrypt.hash(guestUser.password, 10),
+    };
+
+    const newUser = await this.databaseService.user.create({
+      data: hashedCreateUserDto,
+    });
+
+    const newUserId = newUser.id;
     const token = jwt.sign(newUser, process.env.JWT_SECRET!);
 
     return { newUserId, token };
@@ -109,6 +132,21 @@ export class UsersService {
       return await this.databaseService.user.delete({
         where: {
           id,
+        },
+      });
+    } catch (error) {
+      if (error.code === "P2025") {
+        throw new NotFoundException(`User with id: ${id} not found`);
+      }
+      throw error;
+    }
+  }
+
+  async getStreak(id: number) {
+    try {
+      return await this.databaseService.user.findFirst({
+        where: {
+          id: id,
         },
       });
     } catch (error) {
