@@ -10,20 +10,21 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
-  name            String   
-  email           String   @unique
+  id              Int              @id @default(autoincrement())
+  name            String
+  email           String           @unique
   password        String
-  streak          Int      @default(0)
+  streak          Int              @default(0)
   groups          Group[]
   individualTasks IndividualTask[]
   sessions        Session[]
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  plants          UserPlant[]
 }
 
 model Group {
@@ -41,7 +42,7 @@ model IndividualTask {
   description String
   done        Boolean
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt 
+  updatedAt   DateTime @updatedAt
 }
 
 model GroupTask {
@@ -49,37 +50,38 @@ model GroupTask {
   description String
   numTask     Int
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt 
+  updatedAt   DateTime @updatedAt
 }
 
 model Session {
-  id          Int      @id @default(autoincrement())
-  createdBy   User     @relation(fields: [userId], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdBy   User      @relation(fields: [userId], references: [id])
   userId      Int
   done        Boolean
   duration    Int
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   type        String
   completedAt DateTime?
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime  @updatedAt
 }
 
 // TODO: running a migration and fix a version bug (again)
 model Plant {
-  id          Int       @id @default(autoincrement())
-  name        String
-  imageUrl    String?
-  rarity      String
-  bucksValue  Int
-  userPlants  UserPlant[]
+  id         Int         @id @default(autoincrement())
+  name       String
+  imageUrl   String?
+  rarity     String
+  bucksValue Int
+  // plants  UserPlant[]
+  userPlants UserPlant[]
 }
 
 model UserPlant {
-  id          Int       @id @default(autoincrement())
-  createdBy   User      @relation(fields: [userId], references: [id])
-  userId      Int
-  plant       Plant     @relation(fields: [plantId], references: [id])
-  plantId     Int
-  position    String?
-  plantedAt   DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  createdBy User     @relation(fields: [userId], references: [id])
+  userId    Int
+  plant     Plant    @relation(fields: [plantId], references: [id])
+  plantId   Int
+  position  String?
+  plantedAt DateTime @default(now())
 }
