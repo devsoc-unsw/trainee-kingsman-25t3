@@ -22,17 +22,17 @@ export class PlantsService {
     return plants;
   }
 
-  // async createPlant(createPlantDto: CreatePlantDto) {
-  //   return "This action adds a new plant";
-  // }
+  async createPlant(createPlantDto: CreatePlantDto) {
+    return "This action adds a new plant";
+  }
 
   async rewardHandler(userId: number, createPlantDto: CreatePlantDto) {
     // const plants = await this.databaseService.plant.findMany();
     // const newPlant = plants[Math.floor(Math.random() * plants.length)];
 
-    // transaction used to simulate money transfer 
+    // transaction used to simulate money transfer
     await this.databaseService.$transaction([
-      this.databaseService.plant.update({
+      this.databaseService.user.update({
         where: {
           id: userId,
         },
