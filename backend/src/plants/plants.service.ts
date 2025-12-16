@@ -26,7 +26,8 @@ export class PlantsService {
     return "This action adds a new plant";
   }
 
-  async rewardHandler(userId: number, createPlantDto: CreatePlantDto) {
+  // simultaneously creates plants
+  async rewardHandler(createPlantDto: CreatePlantDto) {
     // const plants = await this.databaseService.plant.findMany();
     // const newPlant = plants[Math.floor(Math.random() * plants.length)];
 
@@ -34,7 +35,7 @@ export class PlantsService {
     await this.databaseService.$transaction([
       this.databaseService.user.update({
         where: {
-          id: userId,
+          id: createPlantDto.userId,
         },
         data: {
           bucksValue: { increment: 5 },
@@ -42,7 +43,7 @@ export class PlantsService {
       }),
       this.databaseService.userPlant.create({
         data: {
-          userId,
+          userId: createPlantDto.userId,
           plantId: createPlantDto.plantId,
         },
       }),
@@ -54,6 +55,7 @@ export class PlantsService {
 
   // }
 
+  // currently runs
   findAll() {
     return `This action returns all plants`;
   }

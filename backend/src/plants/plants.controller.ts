@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from "@nestjs/common";
 import { PlantsService } from "./plants.service";
 import { CreatePlantDto } from "./dto/create-plant.dto";
 import { UpdatePlantDto } from "./dto/update-plant.dto";
@@ -19,9 +19,10 @@ export class PlantsController {
     return this.plantsService.findAll();
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.plantsService.findOne(+id);
+  // or GET /plants/:userId
+  @Get(":userId")
+  findOne(@Param("userId", ParseIntPipe) userId: number) {
+    return this.plantsService.getPlants(+userId);
   }
 
   @Patch(":id")
