@@ -39,4 +39,14 @@ export class SessionsController {
   delete(@Param("id", ParseIntPipe) id: number) {
     return this.sessionsService.deleteSession(id);
   }
+
+  @Get("/statistics/:userId")
+  getStatistics(@Param("userId", ParseIntPipe) userId: number) {
+    return this.sessionsService.getStatistics(userId);
+  }
+
+  @Get("/statistics/best/:userId")
+  getBestDuration(@Param("userId", ParseIntPipe) userId: number) {
+    return this.sessionsService.getBestDuration(userId);
+  }
 }
