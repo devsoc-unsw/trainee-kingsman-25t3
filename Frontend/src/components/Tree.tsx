@@ -3,7 +3,7 @@ import { Group } from "three";
 import { useFrame } from "@react-three/fiber";
 import { MeshDistortMaterial, Sphere } from "@react-three/drei";
 
-export default function Tree({ position = [0, 0, 0] }) {
+export default function Tree({ position = [0, 0, 0] as [number, number, number] }) {
   const group = useRef<Group>(null);
 
   // Optional sway animation

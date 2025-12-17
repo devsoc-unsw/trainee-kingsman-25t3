@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createSession } from "../endpoints/session";
 
 const PomodoroTimer = () => {
+  const queryClient = useQueryClient();
+
   const [focusMinutes, setFocusMinutes] = useState(25); // default 25 mins
   const [breakMinutes, setBreakMinutes] = useState(5); // default 5 mins
 
@@ -18,6 +21,20 @@ const PomodoroTimer = () => {
   // test mode for faster testing (100ms interval instead of 1000ms)
   const [isTestMode, setIsTestMode] = useState(false);
   const intervalSpeed = isTestMode ? 100 : 1000;
+
+  // Mutation for creating sessions
+  const sessionMutation = useMutation({
+    mutationFn: (data: { userId: number; duration: number; type: string; completedAt: Date }) =>
+      createSession(data.userId, data.duration, data.type, data.completedAt),
+    onSuccess: () => {
+      const userId = parseInt(localStorage.getItem("userId")!);
+      queryClient.invalidateQueries({ queryKey: ['sessions', userId] });
+      queryClient.invalidateQueries({ queryKey: ['userStreak', userId] });
+    },
+    onError: (error: Error) => {
+      console.error("Failed to create session:", error);
+    }
+  });
 
   const switchMode = () => {
     if (mode === "focus") {
@@ -73,27 +90,24 @@ const PomodoroTimer = () => {
           const bellSound = new Audio("/timerBell.wav");
           bellSound.play();
           if (mode === "focus") {
-            // current backend and endpoint implementation
-            createSession(
-              parseInt(localStorage.getItem("userId")!),
-              focusDuration,
-              mode,
-              new Date(Date.now())
-            ).catch((error) => {
-              console.error("Failed to create session:", error);
-              alert("Failed to save session: " + error.message);
+            // Use mutation to create session
+            sessionMutation.mutate({
+              userId: parseInt(localStorage.getItem("userId")!),
+              duration: focusDuration,
+              type: mode,
+              completedAt: new Date(Date.now())
             });
 
             setMode("break");
             setBreakMinutes(breakDuration); // set to memory value
             setSeconds(0);
           } else {
-            createSession(
-              parseInt(localStorage.getItem("userId")!),
-              focusDuration,
-              mode,
-              new Date(Date.now())
-            ).catch(console.error);
+            sessionMutation.mutate({
+              userId: parseInt(localStorage.getItem("userId")!),
+              duration: breakDuration,
+              type: mode,
+              completedAt: new Date(Date.now())
+            });
 
             setMode("focus");
             setFocusMinutes(focusDuration); // set to memory value

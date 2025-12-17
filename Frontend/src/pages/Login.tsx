@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { login } from "../endpoints/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+  }, []);
 
   const handleLogin = async () => {
     try {

@@ -32,6 +32,7 @@ export class TasksController {
     @Param("taskId", ParseIntPipe) id: number,
     @Body() patchTaskDto: PatchTaskDto,
   ) {
+    console.log("BRUH")
     return this.tasksService.patchTask(id, patchTaskDto);
   }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../endpoints/auth";
 
@@ -14,6 +14,11 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+  }, []);
 
   const passwordToggle = () => {
     setPasswordVisible(!passwordVisible);
