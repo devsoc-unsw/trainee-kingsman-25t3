@@ -22,9 +22,9 @@ export class PlantsService {
     return plants;
   }
 
-  async createPlant(createPlantDto: CreatePlantDto) {
-    return "This action adds a new plant";
-  }
+  // async createPlant(createPlantDto: CreatePlantDto) {
+  //   return "This action adds a new plant";
+  // }
 
   // simultaneously creates plants (unless better to do seperate logic handlers?)
   async rewardHandler(createPlantDto: CreatePlantDto) {

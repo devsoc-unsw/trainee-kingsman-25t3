@@ -10,7 +10,7 @@ export class PlantsController {
   // POST /plants
   @Post()
   create(@Body() createPlantDto: CreatePlantDto) {
-    return this.plantsService.createPlant(createPlantDto);
+    return this.plantsService.rewardHandler(createPlantDto);
   }
 
   // GET /plants
