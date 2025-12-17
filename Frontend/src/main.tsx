@@ -8,6 +8,7 @@ import App from "./App.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
+import SessionHistory from "./pages/SessionHistory.tsx";
 
 // Components
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
@@ -24,6 +25,14 @@ createRoot(document.getElementById("root")!).render(
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <SessionHistory />
             </ProtectedRoute>
           }
         />
