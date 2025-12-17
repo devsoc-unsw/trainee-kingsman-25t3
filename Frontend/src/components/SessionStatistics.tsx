@@ -1,39 +1,25 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getSession } from "../endpoints/session";
 import { getUserStreak } from "../endpoints/auth";
 
 const SessionStatistics = () => {
-  const [error, setError] = useState("");
-  const [sessionCompleted, setSessionCompleted] = useState();
-  const [totalTime, setTotalTime] = useState();
-  const [streak, setStreak] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const userId = parseInt(localStorage.getItem("userId")!);
 
-  // Get past sessions statistics and user streak
-  useEffect(() => {
-    const handleGetData = async () => {
-      try {
-        setIsLoading(true);
-        const userId = parseInt(localStorage.getItem("userId")!);
+  const { data: sessionData, error: sessionError, isLoading: sessionLoading } = useQuery({
+    queryKey: ['sessions', userId],
+    queryFn: () => getSession(userId),
+  });
 
-        const [sessionResponse, streakResponse] = await Promise.all([
-          getSession(userId),
-          getUserStreak(userId)
-        ]);
+  const { data: streakData, error: streakError, isLoading: streakLoading } = useQuery({
+    queryKey: ['userStreak', userId],
+    queryFn: () => getUserStreak(userId),
+  });
 
-        console.log(sessionResponse, streakResponse);
-        setSessionCompleted(sessionResponse.data.count);
-        setTotalTime(sessionResponse.data.totalTime);
-        setStreak(streakResponse.data.streak);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load stats");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    handleGetData();
-  }, []);
+  const isLoading = sessionLoading || streakLoading;
+  const error = sessionError || streakError;
+  const sessionCompleted = sessionData?.data.count;
+  const totalTime = sessionData?.data.totalTime;
+  const streak = streakData?.data.streak ?? 0;
 
   return (
     <div className="bg-linear-to-br from-[#2a3c58] to-[#1e2c42] rounded-2xl p-6 shadow-2xl border border-gray-700/50">
@@ -42,7 +28,7 @@ const SessionStatistics = () => {
         Quick Stats
       </h3>
       {error ? (
-        <p className="text-red-500">{error}</p>
+        <p className="text-red-500">{error instanceof Error ? error.message : "Failed to load stats"}</p>
       ) : isLoading ? (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
