@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsInt } from "class-validator";
+import { IsDate, IsInt, IsNotEmpty } from "class-validator";
 
 export class CreatePlantDto {
   @Type(() => Number)
@@ -9,4 +9,9 @@ export class CreatePlantDto {
   @Type(() => Number)
   @IsInt()
   plantId: number;
+
+  @Type(() => Date)
+  @IsNotEmpty()
+  @IsDate()
+  plantedAt: Date;
 }

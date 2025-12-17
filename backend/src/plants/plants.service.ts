@@ -26,7 +26,7 @@ export class PlantsService {
     return "This action adds a new plant";
   }
 
-  // simultaneously creates plants
+  // simultaneously creates plants (unless better to do seperate logic handlers?)
   async rewardHandler(createPlantDto: CreatePlantDto) {
     // const plants = await this.databaseService.plant.findMany();
     // const newPlant = plants[Math.floor(Math.random() * plants.length)];
@@ -45,6 +45,7 @@ export class PlantsService {
         data: {
           userId: createPlantDto.userId,
           plantId: createPlantDto.plantId,
+          plantedAt: createPlantDto.plantedAt,
         },
       }),
     ]);
