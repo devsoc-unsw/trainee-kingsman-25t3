@@ -93,7 +93,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-green-500 via-blue-500 to-purple-500 opacity-20"></div>
+      {/* <div className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-green-500 via-blue-500 to-purple-500 opacity-20"></div> */}
     </header>
   );
 };
