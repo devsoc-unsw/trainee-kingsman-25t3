@@ -13,13 +13,7 @@ export class TasksService {
       },
     });
 
-    const ret = tasks.map(({ id, description, done }) => ({
-      id,
-      title: description,
-      completed: done,
-    }));
-
-    return ret;
+    return tasks;
   }
 
   async createTask(createTaskDto: CreateTaskDto) {
@@ -30,17 +24,10 @@ export class TasksService {
       },
     });
 
-    const ret = {
-      id: newTask.id,
-      title: newTask.description,
-      completed: newTask.done,
-    };
-
-    return ret;
+    return newTask;
   }
 
   async patchTask(id: number, patchTaskDto: PatchTaskDto) {
-    console.log("HAHAHAHHA")
     const task = await this.databaseService.individualTask.update({
       where: {
         id: id,
@@ -49,7 +36,6 @@ export class TasksService {
     });
 
     if (!task) {
-      console.log("NOT FOUND")
       throw new NotFoundException(
         `Failed to update task. Task id: ${id} not found`,
       );

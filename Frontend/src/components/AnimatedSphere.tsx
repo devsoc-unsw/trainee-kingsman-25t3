@@ -1,17 +1,12 @@
-import { MeshDistortMaterial, Sphere } from "@react-three/drei";
+import { MeshDistortMaterial, Sphere } from '@react-three/drei'
+import React from 'react'
 
 function AnimatedSphere() {
   return (
     <Sphere visible args={[1, 100, 100]} scale={2}>
-      <MeshDistortMaterial
-        color="#00cd71"
-        attach="material"
-        distort={0.4}
-        speed={2}
-        roughness={0.5}
-      />
+      <MeshDistortMaterial color="#00cd71" attach="material" distort={0.4} speed={2} roughness={0.5}/>
     </Sphere>
-  );
+  )
 }
 
-export default AnimatedSphere;
+export default AnimatedSphere

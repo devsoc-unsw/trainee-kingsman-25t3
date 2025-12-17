@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,39 +14,46 @@ datasource db {
 }
 
 model User {
-  id               Int              @id @default(autoincrement())
-  name             String
-  email            String           @unique
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  password         String
-  streak           Int              @default(0)
-  bucksValue       Int              @default(0)
-  lastActivityDate DateTime?
-  individualTasks  IndividualTask[]
-  sessions         Session[]
-  UserPlant        UserPlant[]
-  groups           Group[]          @relation("GroupToUser")
-
-  @@index(fields: [name, email])
+  id                Int      @id @default(autoincrement())
+  username          String   @unique
+  email             String   @unique
+  passwordHash      String
+  bucks             Int      @default(0)
+  selectedCharacterId Int?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  tasks     Task[]
+  sessions  Session[]
+  groups    Group[] // Keep for now if needed, or remove if legacy
 }
 
 model Group {
   id        Int      @id @default(autoincrement())
   name      String
+  members   User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  members   User[]   @relation("GroupToUser")
 }
 
-model IndividualTask {
+model Task {
   id          Int      @id @default(autoincrement())
-  description String
+  title       String
+  completed   Boolean  @default(false)
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  userId      Int
-  done        Boolean
-  createdBy   User     @relation(fields: [userId], references: [id])
+  completedAt DateTime?
+}
+
+model Session {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+  durationMinutes Int
+  sessionType     String   @default("POMODORO") // POMODORO, SHORT_BREAK, LONG_BREAK
+  completedAt     DateTime @default(now())
 }
 
 model GroupTask {
@@ -48,38 +61,5 @@ model GroupTask {
   description String
   numTask     Int
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Session {
-  id          Int       @id @default(autoincrement())
-  userId      Int
-  done        Boolean
-  duration    Int
-  createdAt   DateTime  @default(now())
-  type        String
-  completedAt DateTime?
-  updatedAt   DateTime  @updatedAt
-  createdBy   User      @relation(fields: [userId], references: [id])
-
-  @@index(fields: [userId, duration(sort: Desc)])
-}
-
-model Plant {
-  id         Int         @id @default(autoincrement())
-  name       String
-  imageUrl   String?
-  rarity     String
-  bucksValue Int
-  UserPlant  UserPlant[]
-}
-
-model UserPlant {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  plantId   Int
-  position  String?
-  plantedAt DateTime @default(now())
-  Plant     Plant    @relation(fields: [plantId], references: [id])
-  User      User     @relation(fields: [userId], references: [id])
+  updatedAt   DateTime @updatedAt 
 }

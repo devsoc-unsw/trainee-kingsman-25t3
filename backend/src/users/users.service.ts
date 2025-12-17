@@ -118,19 +118,4 @@ export class UsersService {
       throw error;
     }
   }
-
-  async getStreak(id: number) {
-    try {
-      return await this.databaseService.user.findFirst({
-        where: {
-          id: id,
-        },
-      });
-    } catch (error) {
-      if (error.code === "P2025") {
-        throw new NotFoundException(`User with id: ${id} not found`);
-      }
-      throw error;
-    }
-  }
 }
