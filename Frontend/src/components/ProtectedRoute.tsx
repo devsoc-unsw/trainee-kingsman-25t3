@@ -5,12 +5,15 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const token = localStorage.getItem("token");
+  // Check for userId in localStorage as a basic authentication indicator
+  // The actual authentication is handled by HTTP-only cookies on the backend
+  const userId = localStorage.getItem("userId");
 
-  if (!token) {
+  if (!userId) {
     return <Navigate to="/auth/login" replace />;
   }
 
+  // If the cookie is invalid/expired, the axios interceptor will catch 401 and redirect
   return <>{children}</>;
 };
 
