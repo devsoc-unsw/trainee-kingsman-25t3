@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Body,
   UseGuards,
+  Request,
 } from "@nestjs/common";
 import { TasksService } from "./tasks.service";
 import { CreateTaskDto, PatchTaskDto } from "./dto";
@@ -17,14 +18,17 @@ import { JwtAuthGuard } from "../auth/auth.guard";
 @UseGuards(JwtAuthGuard)
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
-  @Get(":userId")
-  getTasks(@Param("userId", ParseIntPipe) userId: number) {
-    return this.tasksService.getTasks(userId);
+  @Get()
+  getTasks(@Request() req) {
+    return this.tasksService.getTasks(req.user.sub);
   }
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.tasksService.createTask(createTaskDto);
+  create(@Request() req, @Body() createTaskDto: CreateTaskDto) {
+    return this.tasksService.createTask({
+      ...createTaskDto,
+      userId: req.user.sub,
+    });
   }
 
   @Patch(":taskId")
@@ -32,7 +36,6 @@ export class TasksController {
     @Param("taskId", ParseIntPipe) id: number,
     @Body() patchTaskDto: PatchTaskDto,
   ) {
-    console.log("BRUH")
     return this.tasksService.patchTask(id, patchTaskDto);
   }
 

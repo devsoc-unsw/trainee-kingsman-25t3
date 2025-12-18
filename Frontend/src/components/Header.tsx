@@ -5,7 +5,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     navigate("/auth/login");
   };
 
@@ -32,6 +32,15 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-4">
+          {/* Farm Button */}
+          <button
+            onClick={() => navigate("/farm")}
+            className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-xl bg-green-800/30 border border-green-700/50 hover:bg-green-700/40 transition-colors"
+          >
+            <span className="text-xl">🌱</span>
+            <span className="text-sm font-medium text-gray-200">My Farm</span>
+          </button>
+
           {/* History Button */}
           <button
             onClick={() => navigate("/history")}

@@ -3,6 +3,7 @@ import { BASE_API_URL } from "../endpoints/base_url";
 
 const axiosInstance = axios.create({
   baseURL: BASE_API_URL,
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
@@ -23,6 +24,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
+      localStorage.removeItem("userId");
       window.location.href = "/auth/login";
     }
     return Promise.reject(error);
