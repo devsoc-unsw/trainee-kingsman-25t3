@@ -43,6 +43,13 @@ const Header = () => {
             <span className="text-sm font-medium text-gray-200">History</span>
           </button>
 
+          <button
+            onClick={() => navigate("/guilds")}
+            className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-800/30 border border-gray-700/50 hover:bg-gray-700/40 transition-colors"
+          >
+            <span className="text-sm font-medium text-gray-200">Guilds</span>
+          </button>
+
           <UserInfo />
 
           <div className="hidden md:block w-px h-8 bg-linear-to-b from-transparent via-gray-600 to-transparent"></div>

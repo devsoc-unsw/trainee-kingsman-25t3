@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
+import Guilds from "./pages/Guilds.tsx";
+import GuildDetail from "./pages/GuildDetail.tsx";
 
 // Pages
 import App from "./App.tsx";
@@ -40,6 +42,23 @@ createRoot(document.getElementById("root")!).render(
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/guilds"
+          element={
+            <ProtectedRoute>
+              <Guilds />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/guilds/:id"
+          element={
+            <ProtectedRoute>
+              <GuildDetail />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </BrowserRouter>
     </QueryClientProvider>
