@@ -6,9 +6,10 @@ import { useState } from "react";
 type FarmGridProps = {
   userId: number;
   gridSize?: { rows: number; cols: number };
+  userPlants?: UserPlant[];
 };
 
-const FarmGrid = ({ userId, gridSize = { rows: 4, cols: 4 } }: FarmGridProps) => {
+const FarmGrid = ({ userId, gridSize = { rows: 4, cols: 4 }, userPlants }: FarmGridProps) => {
   const queryClient = useQueryClient();
   const [selectedPlant, setSelectedPlant] = useState<UserPlant | null>(null);
   const [error, setError] = useState("");
@@ -16,8 +17,16 @@ const FarmGrid = ({ userId, gridSize = { rows: 4, cols: 4 } }: FarmGridProps) =>
   const { data: userPlantsData, isLoading } = useQuery({
     queryKey: ["userPlants", userId],
     queryFn: async () => {
+      if (userPlants) {
+        return userPlants;
+      }
+
       const response = await getUserPlants(userId);
-      return response.data;
+
+      return response.data.map((e: UserPlant) => ({
+        ...e,
+        plantedAt: new Date(e.plantedAt),
+      }));
     },
   });
 

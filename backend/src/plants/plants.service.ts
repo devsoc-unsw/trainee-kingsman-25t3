@@ -18,7 +18,7 @@ export class PlantsService {
         userId: userId,
       },
       include: {
-        Plant: true,
+        plant: true,
       },
     });
 

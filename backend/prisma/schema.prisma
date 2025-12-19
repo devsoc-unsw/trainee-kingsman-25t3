@@ -80,7 +80,7 @@ model UserPlant {
   plantId   Int
   position  String?
   plantedAt DateTime @default(now())
-  Plant     Plant    @relation(fields: [plantId], references: [id])
+  plant     Plant    @relation(fields: [plantId], references: [id])
   User      User     @relation(fields: [userId], references: [id])
 }
 

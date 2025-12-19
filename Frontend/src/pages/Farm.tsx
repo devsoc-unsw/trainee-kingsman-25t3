@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import PlantShop from "../components/PlantShop";
 import FarmGrid from "../components/FarmGrid";
-import { Plant } from "../types/plant";
+// import { Plant } from "../types/plant";
 import { getUserPlants } from "../endpoints/plant";
+ 
+type Plant = {
+  id: number;
+  name: string;
+  imageUrl: string | null;
+  rarity: string;
+  bucksValue: number;
+}
 
 type UserPlant = {
   id: number;
@@ -32,7 +40,7 @@ const Farm = () => {
       }
     }
     handleGetPlants();
-  });
+  }, [userId]);
 
   if (!userId) {
     return (
@@ -96,7 +104,7 @@ const Farm = () => {
               onPurchaseSuccess={() => setShowShop(false)}
             />
           ) : (
-            <FarmGrid userId={userId} gridSize={{ rows: 4, cols: 4 }} />
+            <FarmGrid userId={userId} gridSize={{ rows: 4, cols: 4 }} userPlants={userPlants}/>
           )}
         </div>
 
