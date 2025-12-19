@@ -64,10 +64,10 @@ const Register = () => {
   };
 
   return (
-    <div className="relative flex justify-center items-center min-h-screen bg-linear-to-b from-[#005fbf] to-white text-white z-99">
+    <div className="relative flex justify-center items-center min-h-screen bg-linear-to-b from-[#005fbf] to-white">
       <ForestBackground />
-      <div className="flex flex-col justify-center items-center border-2 p-4 gap-y-4 w-1/2">
-        <h1 className="text-3xl">Register with Farm 'n Cram</h1>
+      <div className="flex flex-col justify-center items-center border-6 border-[#161180] p-4 gap-y-4 w-1/2 z-99">
+        <h1 className="text-3xl text-[#161180]">Register with Farm 'n Cram</h1>
 
         {error && (
           <div className="w-1/2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -193,17 +193,17 @@ const Register = () => {
           </div>
         </div>
         <button
-          className="bg-purple-700 rounded py-3 px-4 cursor-pointer hover:bg-purple-800 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-purple-700 text-white rounded py-3 px-4 cursor-pointer hover:bg-purple-800 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => handleRegister()}
           disabled={isLoading}
         >
           {isLoading ? "Registering..." : "Register"}
         </button>
-        <p>
+        <p className="text-[#161180]">
           Already have an account?
           <span className="m-1">
             <button
-              className="bg-purple-700 rounded p-1.5 cursor-pointer hover:bg-purple-800"
+              className="bg-purple-700 rounded p-1.5 cursor-pointer hover:bg-purple-800 text-white"
               onClick={() => navigate("/auth/login")}
             >
               Log In
