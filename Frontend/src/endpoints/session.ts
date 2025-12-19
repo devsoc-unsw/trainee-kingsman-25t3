@@ -1,5 +1,4 @@
-import axios from "axios";
-import { BASE_API_URL } from "./base_url";
+import axiosInstance from "../lib/axios";
 import { getErrorMessage } from "./error";
 
 export const createSession = async (
@@ -9,7 +8,7 @@ export const createSession = async (
   completedAt: Date
 ) => {
   try {
-    const response = await axios.post(`${BASE_API_URL}/sessions`, {
+    const response = await axiosInstance.post("/sessions", {
       userId,
       duration,
       type,
@@ -27,7 +26,7 @@ export const getSession = async (
   userId: number
 ) => {
   try {
-    const response = await axios.get(`${BASE_API_URL}/sessions/${userId}`);
+    const response = await axiosInstance.get(`/sessions/${userId}`);
     return response;
   } catch (err: unknown) {
     const errorMessage = getErrorMessage(err, "Session creation failed");
