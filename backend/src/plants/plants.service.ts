@@ -17,6 +17,9 @@ export class PlantsService {
       where: {
         userId: userId,
       },
+      include: {
+        Plant: true,
+      },
     });
 
     return plants;
