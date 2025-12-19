@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import axiosInstance from "../lib/axios";
 
 interface Session {
   id: number;
@@ -35,18 +36,10 @@ const SessionHistory = () => {
   const [hasMore, setHasMore] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Get userId from localStorage (you may need to adjust this based on your auth implementation)
+  // Get userId from localStorage
   const getUserId = () => {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
-
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return payload.userId || payload.sub || payload.id;
-    } catch (e) {
-      console.error("Failed to parse token:", e);
-      return null;
-    }
+    const userId = localStorage.getItem("userId");
+    return userId ? parseInt(userId, 10) : null;
   };
 
   const fetchSessions = async (cursor?: number, direction: "prev" | "next" = "next") => {
@@ -62,20 +55,11 @@ const SessionHistory = () => {
 
     try {
       const url = cursor
-        ? `http://localhost:3000/sessions/statistics/${userId}?cursor=${cursor}&direction=${direction}&take=10`
-        : `http://localhost:3000/sessions/statistics/${userId}?take=10`;
+        ? `/sessions/statistics/${userId}?cursor=${cursor}&direction=${direction}&take=10`
+        : `/sessions/statistics/${userId}?take=10`;
 
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch sessions");
-      }
-
-      const data: PaginationData = await response.json();
+      const response = await axiosInstance.get<PaginationData>(url);
+      const data = response.data;
 
       setSessions(data.data);
       setNextCursor(data.nextCursor);

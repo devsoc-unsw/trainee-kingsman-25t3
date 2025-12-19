@@ -1,9 +1,9 @@
 import axiosInstance from "../lib/axios";
 import { getErrorMessage } from "./error";
 
-export const getTasks = async (userId: number) => {
+export const getTasks = async () => {
   try {
-    const response = await axiosInstance.get(`/tasks/${userId}`);
+    const response = await axiosInstance.get("/tasks");
     return response;
   } catch (err: unknown) {
     const errorMessage = getErrorMessage(err, "Fetch task failed");
@@ -12,11 +12,10 @@ export const getTasks = async (userId: number) => {
   }
 };
 
-export const addTasks = async (userId: number, description: string) => {
+export const addTasks = async (description: string) => {
   try {
-    const response = await axiosInstance.post(`/tasks`, {
+    const response = await axiosInstance.post("/tasks", {
       description: description,
-      userId: userId,
     });
 
     return response;

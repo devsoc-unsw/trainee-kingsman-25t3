@@ -12,11 +12,13 @@ export default function Tasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTitle, setNewTitle] = useState("");
   const [error, setError] = useState("");
+  const [rewardMessage, setRewardMessage] = useState("");
 
   useEffect(() => {
     const handleGetTasks = async () => {
       try {
-        const response = await getTasks(parseInt(localStorage.getItem("userId")!));
+        // No userId needed - extracted from JWT cookie by backend
+        const response = await getTasks();
         const tasks: Task[] = response.data;
         setTasks(tasks);
       } catch (err) {
@@ -41,6 +43,17 @@ export default function Tasks() {
 
       return { previousTask };
     },
+    onSuccess: (_data, variables) => {
+      // Show reward notification when task is completed
+      if (variables.completed) {
+        setError(""); // Clear any errors first
+        setRewardMessage("🎉 +10 Bucks earned!");
+        // Clear the success message after 3 seconds
+        setTimeout(() => {
+          setRewardMessage("");
+        }, 3000);
+      }
+    },
     onError: (_err, _variables, context) => {
       if (context?.previousTask) {
         setTasks((prev) =>
@@ -60,7 +73,8 @@ export default function Tasks() {
 
   const addTaskMutation = useMutation({
     mutationFn: async (description: string) => {
-      const response = await addTasks(parseInt(localStorage.getItem("userId")!), description);
+      // No userId needed - extracted from JWT cookie by backend
+      const response = await addTasks(description);
       return response.data;
     },
     onMutate: async (description) => {
@@ -125,6 +139,13 @@ export default function Tasks() {
         <div className="w-3 h-8 rounded-full bg-purple-500 mr-3"></div>
         <h2 className="text-xl font-semibold text-white">My Tasks</h2>
       </div>
+
+      {/* REWARD NOTIFICATION */}
+      {rewardMessage && (
+        <div className="mb-4 p-3 bg-green-900/30 border border-green-500/50 rounded-xl text-green-400 text-center font-semibold animate-bounce">
+          {rewardMessage}
+        </div>
+      )}
 
       {/* INPUT SECTION */}
       <div className="flex gap-3 mb-6">

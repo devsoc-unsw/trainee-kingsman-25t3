@@ -11,7 +11,7 @@ import * as jwt from 'jsonwebtoken';
 export class JwtAuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest<Request>();
-    const token = this.extractTokenFromHeader(request);
+    const token = this.extractTokenFromCookie(request) || this.extractTokenFromHeader(request);
 
     if (!token) {
       throw new UnauthorizedException('No token provided');
@@ -25,6 +25,10 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     return true;
+  }
+
+  private extractTokenFromCookie(request: Request): string | undefined {
+    return request.cookies?.token;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {

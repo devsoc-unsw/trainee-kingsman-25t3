@@ -24,16 +24,21 @@ const PomodoroTimer = () => {
 
   // Mutation for creating sessions
   const sessionMutation = useMutation({
-    mutationFn: (data: { userId: number; duration: number; type: string; completedAt: Date }) =>
+    mutationFn: (data: {
+      userId: number;
+      duration: number;
+      type: string;
+      completedAt: Date;
+    }) =>
       createSession(data.userId, data.duration, data.type, data.completedAt),
     onSuccess: () => {
       const userId = parseInt(localStorage.getItem("userId")!);
-      queryClient.invalidateQueries({ queryKey: ['sessions', userId] });
-      queryClient.invalidateQueries({ queryKey: ['userStreak', userId] });
+      queryClient.invalidateQueries({ queryKey: ["sessions", userId] });
+      queryClient.invalidateQueries({ queryKey: ["userStreak", userId] });
     },
     onError: (error: Error) => {
       console.error("Failed to create session:", error);
-    }
+    },
   });
 
   const switchMode = () => {
@@ -95,7 +100,7 @@ const PomodoroTimer = () => {
               userId: parseInt(localStorage.getItem("userId")!),
               duration: focusDuration,
               type: mode,
-              completedAt: new Date(Date.now())
+              completedAt: new Date(Date.now()),
             });
 
             setMode("break");
@@ -106,7 +111,7 @@ const PomodoroTimer = () => {
               userId: parseInt(localStorage.getItem("userId")!),
               duration: breakDuration,
               type: mode,
-              completedAt: new Date(Date.now())
+              completedAt: new Date(Date.now()),
             });
 
             setMode("focus");
@@ -128,6 +133,7 @@ const PomodoroTimer = () => {
     intervalSpeed,
     focusDuration,
     breakDuration,
+    sessionMutation,
   ]);
 
   const isTimerActive =

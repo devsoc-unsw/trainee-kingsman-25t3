@@ -16,7 +16,6 @@ const Register = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    localStorage.removeItem("token");
     localStorage.removeItem("userId");
   }, []);
 
@@ -54,7 +53,7 @@ const Register = () => {
 
       const response = await register(email, username, password);
       console.log("Registration successful:", response.data);
-      localStorage.setItem("token", response.data.token);
+      // Store only userId in localStorage (token is now in HTTP-only cookie)
       localStorage.setItem("userId", response.data.newUserId);
       navigate("/dashboard");
     } catch (err) {

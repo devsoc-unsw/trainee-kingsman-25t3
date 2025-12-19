@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import SessionHistory from "./pages/SessionHistory.tsx";
+import Farm from "./pages/Farm.tsx";
 
 // Components
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
@@ -39,6 +40,14 @@ createRoot(document.getElementById("root")!).render(
           element={
             <ProtectedRoute>
               <SessionHistory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/farm"
+          element={
+            <ProtectedRoute>
+              <Farm />
             </ProtectedRoute>
           }
         />

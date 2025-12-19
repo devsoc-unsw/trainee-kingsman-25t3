@@ -55,7 +55,15 @@ export class UsersService {
 
     const newUserId = newUser.id;
 
-    const token = jwt.sign(newUser, process.env.JWT_SECRET!);
+    // Create JWT with standard claims (sub for user ID)
+    const payload = {
+      sub: newUser.id,
+      email: newUser.email,
+      name: newUser.name,
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET!, {
+      expiresIn: "7d",
+    });
 
     return { newUserId, token };
   }
@@ -82,7 +90,14 @@ export class UsersService {
       throw new BadRequestException("Incorrect password");
     }
 
-    const token = jwt.sign(user, process.env.JWT_SECRET!);
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      name: user.name,
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET!, {
+      expiresIn: "7d",
+    });
     const userId = user.id;
 
     return { userId, token };

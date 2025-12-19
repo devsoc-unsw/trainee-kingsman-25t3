@@ -83,3 +83,13 @@ model UserPlant {
   Plant     Plant    @relation(fields: [plantId], references: [id])
   User      User     @relation(fields: [userId], references: [id])
 }
+
+model TokenBlacklist {
+  id        Int      @id @default(autoincrement())
+  jti       String   @unique // JWT ID
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([jti])
+  @@index([expiresAt])
+}

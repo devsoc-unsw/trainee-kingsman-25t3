@@ -23,9 +23,14 @@ export class TasksService {
   }
 
   async createTask(createTaskDto: CreateTaskDto) {
+    if (!createTaskDto.userId) {
+      throw new Error("User ID is required");
+    }
+
     const newTask = await this.databaseService.individualTask.create({
       data: {
-        ...createTaskDto,
+        description: createTaskDto.description,
+        userId: createTaskDto.userId,
         done: false,
       },
     });
@@ -40,7 +45,16 @@ export class TasksService {
   }
 
   async patchTask(id: number, patchTaskDto: PatchTaskDto) {
-    console.log("HAHAHAHHA")
+    const existingTask = await this.databaseService.individualTask.findUnique({
+      where: { id },
+    });
+
+    if (!existingTask) {
+      throw new NotFoundException(
+        `Failed to update task. Task id: ${id} not found`,
+      );
+    }
+
     const task = await this.databaseService.individualTask.update({
       where: {
         id: id,
@@ -48,14 +62,23 @@ export class TasksService {
       data: patchTaskDto,
     });
 
-    if (!task) {
-      console.log("NOT FOUND")
-      throw new NotFoundException(
-        `Failed to update task. Task id: ${id} not found`,
-      );
+    // If task is being marked as done (and wasn't done before), award 10 bucks
+    if (patchTaskDto.done === true && !existingTask.done) {
+      await this.databaseService.user.update({
+        where: { id: existingTask.userId },
+        data: {
+          bucksValue: {
+            increment: 10,
+          },
+        },
+      });
     }
 
-    return task;
+    return {
+      id: task.id,
+      title: task.description,
+      completed: task.done,
+    };
   }
 
   async deleteTask(id: number) {
