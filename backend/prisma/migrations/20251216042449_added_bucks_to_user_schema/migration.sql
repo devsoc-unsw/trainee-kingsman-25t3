@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "bucksValue" INTEGER NOT NULL DEFAULT 0;
