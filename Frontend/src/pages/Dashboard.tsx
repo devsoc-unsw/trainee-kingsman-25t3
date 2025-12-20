@@ -30,7 +30,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-gray-700/50">
-                  <p className="text-gray-300 text-sm">Stay focused for 25-minute intervals with short breaks to maximize productivity.</p>
+                  <p className="text-gray-300 text-sm">Stay focused for customisable focus and breaks to suit your study pattern and maximise productivity.</p>
                 </div>
               </div>
             </div>
