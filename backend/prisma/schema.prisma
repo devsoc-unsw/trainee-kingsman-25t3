@@ -20,17 +20,37 @@ model User {
   individualTasks  IndividualTask[]
   sessions         Session[]
   UserPlant        UserPlant[]
-  groups           Group[]          @relation("GroupToUser")
+  guildMembers     GuildMember[]
 
   @@index(fields: [name, email])
 }
 
-model Group {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  members   User[]   @relation("GroupToUser")
+model Guild {
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String
+  goal_tasks   Int           @default(100)
+  current_tasks Int          @default(0)
+  completed    Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  members      GuildMember[]
+
+  @@index([completed])
+}
+
+model GuildMember {
+  id                Int      @id @default(autoincrement())
+  guildId           Int
+  userId            Int
+  joinedAt          DateTime @default(now())
+  tasks_contributed Int      @default(0)
+  guild             Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([guildId, userId])
+  @@index([userId])
+  @@index([guildId])
 }
 
 model IndividualTask {

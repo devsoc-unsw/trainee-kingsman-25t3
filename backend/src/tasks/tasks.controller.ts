@@ -19,12 +19,12 @@ import { JwtAuthGuard } from "../auth/auth.guard";
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
   @Get()
-  getTasks(@Request() req) {
+  async getTasks(@Request() req) {
     return this.tasksService.getTasks(req.user.sub);
   }
 
   @Post()
-  create(@Request() req, @Body() createTaskDto: CreateTaskDto) {
+  async create(@Request() req, @Body() createTaskDto: CreateTaskDto) {
     return this.tasksService.createTask({
       ...createTaskDto,
       userId: req.user.sub,
@@ -32,7 +32,7 @@ export class TasksController {
   }
 
   @Patch(":taskId")
-  patch(
+  async patch(
     @Param("taskId", ParseIntPipe) id: number,
     @Body() patchTaskDto: PatchTaskDto,
   ) {
@@ -40,7 +40,7 @@ export class TasksController {
   }
 
   @Delete(":id")
-  delete(@Param("id", ParseIntPipe) id: number) {
+  async delete(@Param("id", ParseIntPipe) id: number) {
     return this.tasksService.deleteTask(id);
   }
 }
