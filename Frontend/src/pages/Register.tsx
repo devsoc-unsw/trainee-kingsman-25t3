@@ -210,6 +210,12 @@ const Register = () => {
             </button>
           </span>
         </p>
+        <button
+          className="bg-purple-700 rounded p-1.5 cursor-pointer hover:bg-purple-800 text-white"
+          onClick={() => navigate("/")}
+        >
+          Back to Landing Page
+        </button>
       </div>
     </div>
   );
