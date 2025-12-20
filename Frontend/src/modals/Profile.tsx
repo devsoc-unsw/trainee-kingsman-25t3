@@ -18,7 +18,7 @@ const Profile: React.FC<ProfileProps> = ({
   }) => {
   const [showMarketplace, setShowMarketplace] = useState(false);
   
-  // Temporary State for demo
+  // the first two avatars (the farmers) are unlocked by default
   const [ownedIds, setOwnedIds] = useState<number[]>([1, 2]); 
 
   const currentAvatarUrl = CHARACTERS.find(c => c.id === equippedId)?.image || CHARACTERS[0].image;
@@ -80,21 +80,12 @@ const Profile: React.FC<ProfileProps> = ({
                   <div className="w-24 h-24 rounded-full border-4 border-purple-500 overflow-hidden shadow-lg mb-4">
                     <img src={currentAvatarUrl} alt="Avatar" className="w-full h-full object-cover"/>
                   </div>
-                  <div className="absolute inset-0 bg-black bg-opacity-60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity mb-4">
+                  <div className="absolute inset-0 bg-black bg-opacity-60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-85 transition-opacity mb-4">
                       <span className="text-white font-bold text-sm">✎ Edit</span>
                   </div>
               </div>
               <h3 className="text-xl font-semibold text-gray-200">User Account</h3>
             </div>
-
-          {/* Profile Avatar */}
-          {/* <div className="flex flex-col items-center mb-6">
-            <div className="w-24 h-24 rounded-full bg-linear-to-r from-purple-500 to-blue-400 flex items-center justify-center mb-4 shadow-lg">
-              <span className="text-4xl font-semibold">U</span>
-            </div>
-            <h3 className="text-xl font-semibold text-gray-200">User Account</h3>
-            <p className="text-sm text-gray-400">Ready to focus</p>
-          </div> */}
 
           {/* Profile Info */}
           <div className="space-y-4">
