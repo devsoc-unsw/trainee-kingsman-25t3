@@ -35,6 +35,9 @@ const GuildDetail = () => {
     },
   });
 
+  // checking current guildId is NaN
+  console.log("guildId: " + guildId);
+
   if (!Number.isFinite(guildId)) {
     return (
       <div className="min-h-screen bg-linear-to-br from-[#1a2a3a] to-[#213547] text-white p-8">

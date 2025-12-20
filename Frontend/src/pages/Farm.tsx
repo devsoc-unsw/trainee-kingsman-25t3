@@ -1,10 +1,56 @@
 import { useState } from "react";
 import PlantShop from "../components/PlantShop";
 import FarmGrid from "../components/FarmGrid";
+// import { Plant } from "../types/plant";
+import { getUserPlants } from "../endpoints/plant";
+import { useQuery } from "@tanstack/react-query";
+ 
+// type Plant = {
+//   id: number;
+//   name: string;
+//   imageUrl: string | null;
+//   rarity: string;
+//   bucksValue: number;
+// }
+
+// type UserPlant = {
+//   id: number;
+//   userId: number;
+//   plantId: number;
+//   position: string | null;
+//   plantedAt: Date;
+//   plant?: Plant | undefined;
+// }
 
 const Farm = () => {
   const userId = parseInt(localStorage.getItem("userId") || "0");
   const [showShop, setShowShop] = useState(true);
+  // const [error, setError] = useState("");
+
+  // const [userPlants, setUserPlants] = useState<UserPlant[]>([]);
+  
+  // useEffect(() => {
+    //   const handleGetPlants = async () => {
+  //     try {
+  //       const response = await getUserPlants(userId);
+  //       const plants: UserPlant[] = response.data;
+  //       setUserPlants(plants);
+  //     } catch (err) {
+  //       setError("Failed to fetch plants: " + err);
+  //     }
+  //   }
+  //   handleGetPlants();
+  // }, [userId]);
+  
+  // draft integration
+  const { data: userPlants = [] } = useQuery({
+    queryKey: ["userPlants", userId],
+    queryFn: async () => {
+      const response = await getUserPlants(userId);
+      return response.data;
+    },
+    enabled: !!userId,
+  });
 
   if (!userId) {
     return (
@@ -68,7 +114,7 @@ const Farm = () => {
               onPurchaseSuccess={() => setShowShop(false)}
             />
           ) : (
-            <FarmGrid userId={userId} gridSize={{ rows: 4, cols: 4 }} />
+            <FarmGrid userId={userId} gridSize={{ rows: 4, cols: 4 }} userPlants={userPlants}/>
           )}
         </div>
 
