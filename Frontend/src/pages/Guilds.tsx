@@ -10,7 +10,24 @@ const Guilds = () => {
     queryFn: getGuilds,
   });
 
-  const guilds = data?.data ?? [];
+  const leaveMut = useMutation({
+    mutationFn: () => leaveGuild(guildId, userId),
+    onSuccess: async () => {
+      await qc.invalidateQueries({ queryKey: ["guild", guildId] });
+      await qc.invalidateQueries({ queryKey: ["guilds"] });
+    },
+  });
+
+  // checking current guildId is NaN
+  console.log("guildId: " + guildId);
+
+  if (!Number.isFinite(guildId)) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-[#1a2a3a] to-[#213547] text-white p-8">
+        Invalid guild id.
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-[#1a2a3a] to-[#213547] text-white">

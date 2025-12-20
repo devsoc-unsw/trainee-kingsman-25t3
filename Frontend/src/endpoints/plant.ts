@@ -120,7 +120,7 @@ export const getUserPlants = async (userId: number) => {
   }
 
   try {
-    const response = await axiosInstance.get<UserPlant[]>(`/users/${userId}/plants`);
+    const response = await axiosInstance.get<UserPlant[]>(`/plants/${userId}`);
     return response;
   } catch (err: unknown) {
     const errorMessage = getErrorMessage(err, "Failed to fetch user plants");
