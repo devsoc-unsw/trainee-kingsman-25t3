@@ -18,7 +18,7 @@ export const CHARACTERS = [
     id: 3,
     name: "Helpful Robot",
     image: "/characterMarketplaceAvatars/robot.png",
-    price: 150,
+    price: 250,
     isDefault: false,
   },
   {
@@ -32,7 +32,7 @@ export const CHARACTERS = [
     id: 5,
     name: "Magical Gnome",
     image: "/characterMarketplaceAvatars/gnome.png",
-    price: 500,
+    price: 600,
     isDefault: false,
   },
    {
