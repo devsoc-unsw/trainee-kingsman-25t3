@@ -24,7 +24,7 @@ const CharacterMarketplace: React.FC<MarketplaceProps> = ({
             <div className="bg-gray-800 text-white p-6 rounded-xl w-full max-w-5xl relative">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400">
-                        Character Marketplace
+                        Avatar Marketplace
                     </h2>
 
                     <div className="flex items-center gap-4">
