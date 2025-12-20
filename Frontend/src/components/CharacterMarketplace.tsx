@@ -20,7 +20,7 @@ const CharacterMarketplace: React.FC<MarketplaceProps> = ({
 
 }) => {
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-[100]">
+        <div className="fixed inset-0 bg-gray-900 flex justify-center items-center z-[100]">
             <div className="bg-gray-800 text-white p-6 rounded-xl w-full max-w-5xl relative">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400">
@@ -38,7 +38,7 @@ const CharacterMarketplace: React.FC<MarketplaceProps> = ({
                 </div>
                 
                 {/* Grid of Characters */}
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-h-[80vh] overflow-y-auto p-2">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-h-[80vh] overflow-y-auto p-2 bg-gray-800">
                     {CHARACTERS.map((char) => {
                         // determine the state of the item
                         const isOwned = unlockedCharacterIds.includes(char.id) || char.price === 0;
