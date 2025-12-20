@@ -6,14 +6,20 @@ import { CHARACTERS } from '../data/characterData';
 interface ProfileProps {
   onClose: () => void;
   currentBucks: number;
+  equippedId: number;
+  setEquippedId: (id: number) => void;
 }
 
-const Profile: React.FC<ProfileProps> = ({ onClose, currentBucks }) => {
+const Profile: React.FC<ProfileProps> = ({
+    onClose, 
+    currentBucks,
+    equippedId,
+    setEquippedId
+  }) => {
   const [showMarketplace, setShowMarketplace] = useState(false);
   
   // Temporary State for demo
   const [ownedIds, setOwnedIds] = useState<number[]>([1, 2]); 
-  const [equippedId, setEquippedId] = useState<number>(1);
 
   const currentAvatarUrl = CHARACTERS.find(c => c.id === equippedId)?.image || CHARACTERS[0].image;
 

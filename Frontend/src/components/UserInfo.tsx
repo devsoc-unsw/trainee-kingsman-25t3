@@ -8,6 +8,11 @@ const UserInfo = () => {
   const [showProfile, setShowProfile] = useState(false);
   const userId = parseInt(localStorage.getItem("userId") || "0");
 
+  const [equippedId, setEquippedId] = useState<number>(1);
+
+  // Dynamically updates avatar automatically when equippedId changes
+  const userImage = CHARACTERS.find(c => c.id === equippedId)?.image || CHARACTERS[0].image;
+
   // Fetch user's bucks balance
   const { data: bucksData } = useQuery({
     queryKey: ["userBucks", userId],
@@ -21,11 +26,16 @@ const UserInfo = () => {
 
   const currentBucks = bucksData?.bucksValue ?? 0;
 
-  const userImage = CHARACTERS.find(c => c.id === 1)?.image || CHARACTERS[0].image;
-
   return (
     <>
-      {showProfile && <Profile onClose={() => setShowProfile(false)} currentBucks={currentBucks}/>}
+      {showProfile && (
+        <Profile 
+            onClose={() => setShowProfile(false)} 
+            currentBucks={currentBucks}
+            equippedId={equippedId}       
+            setEquippedId={setEquippedId} 
+        />
+      )}
       <div className="hidden md:flex items-center gap-3">
         {/* Bucks Display */}
         <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-yellow-500/20 border border-yellow-500/50">
