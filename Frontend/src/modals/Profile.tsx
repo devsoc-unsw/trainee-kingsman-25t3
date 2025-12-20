@@ -110,12 +110,12 @@ const Profile: React.FC<ProfileProps> = ({
             <button className="flex-1 bg-linear-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 rounded-lg px-4 py-2 font-medium transition-all duration-300 shadow-lg hover:shadow-xl">
               Edit Profile
             </button>
-            <button
+            {/* <button
               onClick={onClose}
               className="flex-1 bg-gray-700/50 hover:bg-gray-600/50 rounded-lg px-4 py-2 font-medium transition-colors"
             >
               Close
-            </button>
+            </button> */}
           </div>          
         </div>
       </div>
