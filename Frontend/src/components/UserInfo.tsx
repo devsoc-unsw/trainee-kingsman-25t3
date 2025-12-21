@@ -45,7 +45,7 @@ const UserInfo = () => {
 
         {/* User Profile Button */}
         <div className="flex items-center px-4 py-2 rounded-xl bg-gray-800/30 border border-gray-700/50 hover:bg-gray-700/40 transition-colors cursor-pointer">
-          <button className="flex space-x-3" onClick={() => setShowProfile(true)}>
+          <button className="flex space-x-3 cursor-pointer" onClick={() => setShowProfile(true)}>
             <div className="w-8 h-8 rounded-full bg-linear-to-r from-purple-500 to-blue-400 flex items-center justify-center">
               <div className="w-8 h-8 rounded-full overflow-hidden border border-gray-500">
              <img 
