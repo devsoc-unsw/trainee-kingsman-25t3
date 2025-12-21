@@ -35,7 +35,7 @@ const Header = () => {
           {/* Farm Button */}
           <button
             onClick={() => navigate("/farm")}
-            className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-xl bg-green-800/30 border border-green-700/50 hover:bg-green-700/40 transition-colors"
+            className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-xl bg-green-800/30 border border-green-700/50 hover:bg-green-700/40 transition-colors cursor-pointer"
           >
             <span className="text-xl">🌱</span>
             <span className="text-sm font-medium text-gray-200">My Farm</span>
@@ -44,7 +44,7 @@ const Header = () => {
           {/* History Button */}
           <button
             onClick={() => navigate("/history")}
-            className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-800/30 border border-gray-700/50 hover:bg-gray-700/40 transition-colors"
+            className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-800/30 border border-gray-700/50 hover:bg-gray-700/40 transition-colors cursor-pointer"
           >
             <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -54,7 +54,7 @@ const Header = () => {
 
           <button
             onClick={() => navigate("/guilds")}
-            className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-800/30 border border-gray-700/50 hover:bg-gray-700/40 transition-colors"
+            className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-800/30 border border-gray-700/50 hover:bg-gray-700/40 transition-colors cursor-pointer"
           >
             <span className="text-sm font-medium text-gray-200">Guilds</span>
           </button>
@@ -65,9 +65,9 @@ const Header = () => {
 
           <button
             onClick={handleLogout}
-            className="group relative flex items-center space-x-2 bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-xl px-5 py-3 font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-red-900/20 active:scale-95"
+            className="group relative flex items-center space-x-2 bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-xl px-5 py-3 font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-red-900/20 active:scale-95 cursor-pointer"
           >
-            <div className="absolute inset-0 rounded-xl bg-linear-to-r from-red-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 rounded-xl bg-linear-to-r from-red-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 "></div>
 
             <svg
               className="w-5 h-5 transition-transform group-hover:rotate-12"

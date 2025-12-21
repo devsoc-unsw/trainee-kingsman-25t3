@@ -161,7 +161,7 @@ export default function Tasks() {
         />
         <button
           onClick={handleAddTask}
-          className="rounded-xl bg-purple-600 px-6 py-3 font-semibold text-white hover:bg-purple-700 transition-all duration-200"
+          className="rounded-xl bg-purple-600 px-6 py-3 font-semibold text-white hover:bg-purple-700 transition-all duration-200 cursor-pointer"
         >
           ADD
         </button>

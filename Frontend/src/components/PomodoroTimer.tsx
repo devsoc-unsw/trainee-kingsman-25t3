@@ -190,14 +190,14 @@ const PomodoroTimer = () => {
       <div className="flex gap-4 mb-1">
         <button
           onClick={switchMode}
-          className={`font-bold ${focusButtonColour}`}
+          className={`font-bold ${focusButtonColour} cursor-pointer`}
         >
           Focus
         </button>
 
         <button
           onClick={switchMode}
-          className={`font-bold ${breakButtonColour}`}
+          className={`font-bold ${breakButtonColour} cursor-pointer`}
         >
           Break
         </button>
@@ -302,7 +302,7 @@ const PomodoroTimer = () => {
 
       <div className="flex gap-4">
         <button
-          className="w-20 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-bold"
+          className="w-20 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-bold cursor-pointer"
           onClick={() => {
             setIsPaused(!isPaused);
           }}
@@ -312,7 +312,7 @@ const PomodoroTimer = () => {
         </button>
 
         <button
-          className="w-20 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 font-bold"
+          className="w-20 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 font-bold cursor-pointer"
           onClick={() => {
             setIsPaused(true); // pause timer
             setSeconds(0); // reset seconds
