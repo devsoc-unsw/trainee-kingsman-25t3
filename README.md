@@ -41,8 +41,14 @@ In your frontend folder path
 
 run ```npm run dev```
 
-### 2.2 Running the Backend
+### 3.2 Running the Backend
 
 In your backend path
 
 run ```npm run start:dev```
+
+### 3.3 View Database
+
+In your backend path
+
+run ```npx prisma generate``` or ```prisma generate```
