@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { DatabaseService } from "src/database/database.service";
 import { CreateTaskDto, PatchTaskDto } from "./dto";
+import { GuildsService } from "../guilds/guilds.service";
 
 @Injectable()
 export class TasksService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly guildsService: GuildsService,
+  ) {}
 
   async getTasks(userId: number) {
     const tasks = await this.databaseService.individualTask.findMany({
@@ -64,14 +68,27 @@ export class TasksService {
 
     // If task is being marked as done (and wasn't done before), award 10 bucks
     if (patchTaskDto.done === true && !existingTask.done) {
-      await this.databaseService.user.update({
-        where: { id: existingTask.userId },
-        data: {
-          bucksValue: {
-            increment: 10,
+      try {
+        await this.databaseService.user.update({
+          where: { id: existingTask.userId },
+          data: {
+            bucksValue: {
+              increment: 10,
+            },
           },
-        },
-      });
+        });
+
+        // Increment guild progress if user is in a guild
+        try {
+          await this.guildsService.incrementGuildProgress(existingTask.userId);
+        } catch (error) {
+          // Log error but don't fail the task update if guild progress fails
+          console.error("Failed to increment guild progress:", error);
+        }
+      } catch (error) {
+        // Log error but don't fail the task update if reward fails
+        console.error("Failed to update user rewards:", error);
+      }
     }
 
     return {
