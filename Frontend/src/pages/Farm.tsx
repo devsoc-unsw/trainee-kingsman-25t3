@@ -4,6 +4,7 @@ import FarmGrid from "../components/FarmGrid";
 // import { Plant } from "../types/plant";
 import { getUserPlants } from "../endpoints/plant";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
  
 // type Plant = {
 //   id: number;
@@ -25,6 +26,8 @@ import { useQuery } from "@tanstack/react-query";
 const Farm = () => {
   const userId = parseInt(localStorage.getItem("userId") || "0");
   const [showShop, setShowShop] = useState(true);
+
+  const navigate = useNavigate();
   // const [error, setError] = useState("");
 
   // const [userPlants, setUserPlants] = useState<UserPlant[]>([]);
@@ -68,6 +71,12 @@ const Farm = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1a2332] via-[#2a3c58] to-[#1e2c42] p-8">
       <div className="max-w-7xl mx-auto">
+      <button
+        onClick={() => navigate("/dashboard")}
+        className="rounded-xl border border-gray-700/50 bg-gray-800/30 px-4 py-2 hover:bg-gray-700/40 transition-colors cursor-pointer text-white"
+      >
+        Back to Dashboard
+      </button>
         {/* PAGE HEADER */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">My Farm</h1>
